@@ -1,0 +1,698 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>patient</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'blog/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'blog/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+   <link href="{% static 'blog/vendor/bootstrap/css/bootstrap-grid.min.css' %}" rel="stylesheet">
+
+   <link href="{% static 'blog/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+   <link href="{% static 'blog/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+   <link href="{% static 'blog/vendor/quill/quill.snow.css' %}" rel="stylesheet">
+   <link href="{% static 'blog/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
+   <link href="{% static 'blog/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+   <link href="{% static 'blog/vendor/simple-datatables/style.css' %}" rel="stylesheet">
+   <link href="{% static 'blog/css/style.css' %}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Remix Icons -->
+<link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+
+
+  <!-- Template Main CSS File -->
+   <style>
+    .card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.card.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+.card:hover {
+    animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    50% { transform: translateX(3px); }
+    75% { transform: translateX(-3px); }
+    100% { transform: translateX(0); }}
+
+
+    .marquee {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  width: 200px; /* Ajuste selon l'espace disponible */
+  height: 25px; /* Facultatif, selon ton design */
+  color: #fff; /* Couleur du texte */
+}
+
+.marquee::after {
+  content: attr(data-text);
+  position: absolute;
+  white-space: nowrap;
+  animation: defilement 8s linear infinite;
+  left: 100%;
+}
+
+@keyframes defilement {
+  0% {
+    left: 100%;
+  }
+  100% {
+    left: -100%;
+  }
+}
+/* pour que le modal saffiche en douceur */
+.modal.fade .modal-dialog {
+  transform: translateY(-20px);
+  transition: transform 0.3s ease-out;
+}
+.modal.fade.show .modal-dialog {
+  transform: translateY(0);
+}
+.table td, .table th {
+    font-size: 0.85rem; /* ou plus petit : 0.75rem */
+    padding: 0.4rem 0.5rem;
+  }
+
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    {% load static %}
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="{% url 'accueil' %}" class="logo d-flex align-items-center">
+        <img src="{% static 'blog/img/logo.jpg' %}" alt="">
+       <span class="d-none d-lg-block marquee" data-text="Gestion Hospitalière UIT..."></span>
+  </a>
+     
+    </div>
+    <!-- End Logo -->
+
+   
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item dropdown">
+
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-bell"></i>
+            <span class="badge bg-primary badge-number">4</span>
+          </a><!-- End Notification Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+           
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-check-circle text-success"></i>
+              <div>
+                <h4>Authentification réussi</h4>
+                <p>2 hrs. ago</p>
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+           
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li class="dropdown-footer">
+              <a href="#">Voir toutes les notifications</a>
+            </li>
+
+          </ul><!-- End Notification Dropdown Items -->
+
+        </li><!-- End Notification Nav -->
+
+        <li class="nav-item dropdown">
+
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-chat-left-text"></i>
+            <span class="badge bg-success badge-number">3</span>
+          </a><!-- End Messages Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+            <li class="dropdown-header">
+              Vous avez 3 nouveaux messages
+              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tous</span></a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="message-item">
+              <a href="#">
+                <img src="{% static 'blog/img/doc1.jpg' %}" alt="" class="rounded-circle">
+                <div>
+                  <h4>Dr Cissé</h4>
+                     <p>4 hrs. ago</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="message-item">
+              <a href="#">
+                <img src="img/doc2.jpg" alt="" class="rounded-circle">
+                <div>
+                  <h4>Dr Birane Sambe</h4>       <p>6 hrs. ago</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="message-item">
+              <a href="#">
+                <img src="img/doc3.jpg" alt="" class="rounded-circle">
+                <div>
+                  <h4>Dr Diop</h4>
+                          <p>8 hrs. ago</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="dropdown-footer">
+              <a href="#">Vous tous les Messages</a>
+            </li>
+
+          </ul><!-- End Messages Dropdown Items -->
+
+        </li><!-- End Messages Nav -->
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="{% static 'blog/img/doc1.jpg' %}" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">Admin</span>
+          </a><!-- End Profile Iamge Icon -->
+
+         
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'accueil' %}">
+          <i class="bi bi-grid"></i>
+          <span>Tableau de Bord</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'admin_Medecin' %}">
+          <i class="bi bi-heart-pulse fs-3"></i>
+          <span>Gestion des Médecin</span>
+        </a>
+      </li>
+      <li class="nav-item">
+  <a class="nav-link collapsed" href="{% url 'admin_Patient' %}">
+    <i class="bi bi-person-vcard fs-3"></i>
+    <span>Gestion des Patients</span>
+  </a>
+</li>
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'admin_Infirmier' %}">
+          <i class="bi-person-lines-fill fs-3"></i>
+          <span>Gestion des Infirmiers</span>
+        </a>
+      </li><!-- End Contact Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'admin_Service' %}">
+          <i class="bi bi-clipboard-heart fs-3"></i>
+          <span>Gestion des Services</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'admin_Bureau' %}">
+          <i class="bi bi-door-closed fs-3"></i>
+          <span>Gestion des Bureaux</span>
+        </a>
+      </li>
+      <li class="nav-item">
+  <a class="nav-link collapsed" href="{% url 'admin_RendezVous' %}">
+    <i class="bi bi-calendar-check fs-3"></i>
+    <span>Gestion des Rendez-vous</span>
+  </a>
+</li>
+
+     
+    </ul>
+
+  </aside><!-- End Sidebar************************************-->
+
+<main id="main" class="main">
+    <div class="row mb-3">
+       
+<div class="container-xl">
+	<div class="table-responsive">
+		<div class="table-wrapper">
+			<div class="table-title">
+				<div class="row">
+					<div class="col-sm-6">
+						<h3><i class="bi bi-clipboard-heart fs-3"></i>
+              <i class="bi bi-clipboard-heart fs-3"></i>
+                </i> Gestion des Patients</h3>
+					</div>
+  <div class="d-flex justify-content-end mb-3">
+          
+
+  <!-- Filtre service --><!-- Filtre par service -->
+<form method="GET" action="{% url 'admin_Patient' %}" class="mb-3">
+  <select name="service" class="form-select" onchange="this.form.submit()">
+    <option value="">Tous les services</option>
+    {% for service in services %}
+      <option value="{{ service.id }}" {% if service.id|stringformat:"s" == request.GET.service %}selected{% endif %}>
+        {{ service.nom_service }}
+      </option>
+    {% endfor %}
+  </select>
+</form>
+
+<!-- Filtre par médecin -->
+<form method="GET" action="{% url 'admin_Patient' %}" class="mb-3">
+  <select name="medecin" class="form-select" onchange="this.form.submit()">
+    <option value="">Tous les médecins</option>
+    {% for medecin in medecins %}
+      <option value="{{ medecin.id }}" {% if medecin.id|stringformat:"s" == request.GET.medecin %}selected{% endif %}>
+        Dr. {{ medecin.nom }} {{ medecin.prenom }}
+      </option>
+    {% endfor %}
+  </select>
+</form>
+
+
+
+  <!-- Barre de recherche -->
+  <form method="GET" action="{% url 'admin_Patient' %}" class="d-flex">
+      <button type="submit" class="btn btn-outline-primary ms-1">
+      <i class="fas fa-search"></i>
+    </button>
+  </form>
+
+  <!-- Export -->
+  <div class="btn-group ms-2">
+    <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown">
+      <i class="fas fa-download"></i> Exporter
+    </button>
+     <ul class="dropdown-menu dropdown-menu-end">
+    <li><a class="dropdown-item" href="{% url 'export_patient_csv' %}">
+      <i class="fas fa-file-csv text-success me-2"></i>Export CSV</a></li>
+    <li><a class="dropdown-item" href="{% url 'export_patient_excel' %}">
+       📊  Export Excel</a></li>
+    <li><a class="dropdown-item" href="{% url 'export_patient_pdf' %}">
+                  <i class="fas fa-file-pdf text-danger me-2"></i>Export PDF</a></li>
+  </ul>
+  </div>
+</div>
+
+     <!-- Bouton pour ouvrir le modal d'ajout -->
+    <div class="mb-3">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ajouterPatientModal">
+        <i class="fas fa-plus-circle"></i> Ajouter un Patient
+      </button>
+    </div>
+      
+    <!-- Tableau des services -->
+    <div class="table-responsive" style="max-width: 100%;">
+      <table class="table table-hover">
+        <thead class="table-dark">
+            <tr>
+                
+                <th><i class="fas fa-user"></i> Nom</th>
+                <th><i class="fas fa-user"></i> Prénom</th>
+                <th><i class="fas fa-birthday-cake"></i>Date Naissance</th>
+                <th><i class="fas fa-venus-mars"></i> Genre</th>
+                <th><i class="fas fa-phone"></i> Adresse</th>
+                <th><i class="fas fa-ring"></i> Service</th>
+                <th><i class="fas fa-phone"></i> Medecin</th>
+                <th>Actions</th>
+            </tr>
+        </thead>  <tbody>
+        {% for pat in patients %}
+        <tr>
+          <td>{{ pat.nom }}</td>
+          <td>{{ pat.prenom }}</td>
+          <td>{{ pat.date_naissance }}</td>
+          <td>{{ pat.sexe }}</td>
+          <td>{{ pat.adresse }}</td>
+          <td>{{ pat.service }}</td>
+          <td>{{ pat.medecin }}</td>
+
+          <td>
+                    <div class="d-inline-flex gap-1">
+    <button class="btn btn-outline-danger btn-sm btnDeletePatient" data-id="{{ pat.id }}" data-nom="{{ pat.nom }}" data-bs-toggle="modal" data-bs-target="#supprimerPatientModal">
+  <i class="fas fa-trash-alt"></i>
+</button>
+<button class="btn btn-outline-success btn-sm btnEditPatient" data-id="{{ pat.id }}" data-nom="{{ pat.nom }}" data-prenom="{{ pat.prenom }}" data-date="{{ pat.date_naissance }}" data-sexe="{{ pat.sexe }}" data-adresse="{{ pat.adresse }}" data-service="{{ pat.service.id }}" data-medecin="{{ pat.medecin.id }}" data-bs-toggle="modal" data-bs-target="#modifierPatientModal">
+  <i class="fas fa-edit"></i>
+</button>
+<button class="btn btn-outline-info btn-sm view-patient-btn" data-id="{{ pat.id }}" data-bs-toggle="modal" data-bs-target="#viewPatientModal">
+  <i class="fas fa-folder-open"></i> Voir Dossier Médical
+</button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+   </div>
+    
+<!-- Modal Ajouter Patient --><div class="modal fade" id="ajouterPatientModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content p-4">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title"><i class="fas fa-user-plus me-2"></i> Ajouter un Patient</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form method="POST" action="{% url 'ajouter_patient' %}">
+        {% csrf_token %}
+        <div class="modal-body row g-3">
+          <div class="col-md-6">
+            <label for="nom" class="form-label"><i class="fas fa-user"></i> Nom</label>
+            <input type="text" name="nom" id="nom" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label for="prenom" class="form-label"><i class="fas fa-user-tag"></i> Prénom</label>
+            <input type="text" name="prenom" id="prenom" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label for="date_naissance" class="form-label"><i class="fas fa-birthday-cake"></i> Date de naissance</label>
+            <input type="date" name="date_naissance" id="date_naissance" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label for="sexe" class="form-label"><i class="fas fa-venus-mars"></i> Sexe</label>
+            <select name="sexe" id="sexe" class="form-select" required>
+              <option value="">Choisir</option>
+              <option value="Homme">Homme</option>
+              <option value="Femme">Femme</option>
+            </select>
+          </div>
+          <div class="col-md-12">
+            <label for="adresse" class="form-label"><i class="fas fa-map-marker-alt"></i> Adresse</label>
+            <input type="text" name="adresse" id="adresse" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label for="service" class="form-label"><i class="fas fa-stethoscope"></i> Service</label>
+            <select name="service" id="service" class="form-select" required>
+              {% for s in services %}
+              <option value="{{ s.id }}">{{ s.nom_service }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="medecin" class="form-label"><i class="fas fa-user-md"></i> Médecin</label>
+            <select name="medecin" id="medecin" class="form-select" required>
+              {% for m in medecins %}
+              <option value="{{ m.id }}">{{ m.nom }} {{ m.prenom }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="submit" class="btn btn-success"><i class="fas fa-save me-1"></i> Enregistrer</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times me-1"></i> Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Modifier Patient -->
+ <div class="modal fade" id="modifierPatientModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content p-4">
+      <div class="modal-header bg-warning text-white">
+        <h5 class="modal-title"><i class="fas fa-pen"></i> Modifier Patient</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form method="POST" id="editPatientForm">
+        {% csrf_token %}
+        <div class="modal-body row g-3">
+          <div class="col-md-6">
+            <label for="edit_nom" class="form-label"><i class="fas fa-user"></i> Nom</label>
+            <input type="text" name="nom" id="edit_nom" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label for="edit_prenom" class="form-label"><i class="fas fa-user-tag"></i> Prénom</label>
+            <input type="text" name="prenom" id="edit_prenom" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label for="edit_date_naissance" class="form-label"><i class="fas fa-birthday-cake"></i> Date de naissance</label>
+            <input type="date" name="date_naissance" id="edit_date_naissance" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label for="edit_sexe" class="form-label"><i class="fas fa-venus-mars"></i> Sexe</label>
+            <select name="sexe" id="edit_sexe" class="form-select" required>
+              <option value="Homme">Homme</option>
+              <option value="Femme">Femme</option>
+            </select>
+          </div>
+          <div class="col-md-12">
+            <label for="edit_adresse" class="form-label"><i class="fas fa-map-marker-alt"></i> Adresse</label>
+            <input type="text" name="adresse" id="edit_adresse" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label for="edit_service" class="form-label"><i class="fas fa-stethoscope"></i> Service</label>
+            <select name="service" id="edit_service" class="form-select" required>
+              {% for s in services %}
+              <option value="{{ s.id }}">{{ s.nom_service }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="edit_medecin" class="form-label"><i class="fas fa-user-md"></i> Médecin</label>
+            <select name="medecin" id="edit_medecin" class="form-select" required>
+              {% for m in medecins %}
+              <option value="{{ m.id }}">{{ m.nom }} {{ m.prenom }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="submit" class="btn btn-warning"><i class="fas fa-save me-1"></i> Mettre à jour</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times me-1"></i> Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal HTML --><div class="modal fade" id="supprimerPatientModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" id="deletePatientForm">
+        {% csrf_token %}
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title"><i class="fas fa-trash-alt"></i> Supprimer Patient</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Êtes-vous sûr de vouloir supprimer le patient <strong id="deletePatientName" class="text-danger"></strong> ?</p>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="submit" class="btn btn-danger"><i class="fas fa-trash me-1"></i> Supprimer</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times me-1"></i> Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+ <!-- Modal Dossier Médical -->
+<div id="viewPatientModal" class="modal fade" tabindex="-1" aria-labelledby="viewPatientModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header bg-info text-white">
+              <h5 class="modal-title" id="viewPatientModalLabel"><i class="fas fa-folder-open"></i> Dossier Médical du Patient</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="container">
+                  <div class="row">
+                      <!-- Colonne gauche -->
+                      <div class="col-md-6">
+                          <div class="mb-3">
+                              <label class="form-label"><i class="fas fa-id-card"></i> Nom et Prénom</label>
+                              <input type="text" class="form-control" id="nomPrenom">
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label"><i class="fas fa-calendar-day"></i> Date de Naissance</label>
+                              <input type="date" class="form-control" id="dateNaissance">
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label"><i class="fas fa-calendar-plus"></i> Date de Création</label>
+                              <input type="date" class="form-control" id="dateCreation">
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label"><i class="fas fa-edit"></i> Dernière Mise à Jour</label>
+                              <input type="date" class="form-control" id="dateMaj">
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label"><i class="fas fa-user-md"></i> Antécédents Personnels</label>
+                              <select class="form-select" id="antecedents">
+                                  <option value="">Sélectionner...</option>
+                                  <option value="diabete">Diabète</option>
+                                  <option value="hypertension">Hypertension</option>
+                                  <option value="asthme">Asthme</option>
+                              </select>
+                          </div>
+                      </div>
+
+                      <!-- Colonne droite -->
+                      <div class="col-md-6">
+                          <div class="mb-3">
+                              <label class="form-label"><i class="fas fa-syringe"></i> Vaccination</label>
+                              <select class="form-select" id="vaccination">
+                                  <option value="">Sélectionner...</option>
+                                  <option value="covid">COVID-19</option>
+                                  <option value="grippe">Grippe</option>
+                                  <option value="hepatite">Hépatite B</option>
+                              </select>
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label"><i class="fas fa-stethoscope"></i> Symptômes Observés</label>
+                              <input type="text" class="form-control" id="symptomes">
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label"><i class="fas fa-notes-medical"></i> Diagnostic</label>
+                              <input type="text" class="form-control" id="diagnostic">
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label"><i class="fas fa-pills"></i> Traitement Prescrit</label>
+                              <input type="text" class="form-control" id="traitement">
+                          </div>
+                          <div class="mb-3">
+                              <label class="form-label"><i class="fas fa-file-medical-alt"></i> Suivi Médical</label>
+                              <input type="text" class="form-control" id="suiviMedical">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button class="btn btn-success" id="savePatient"><i class="fas fa-save"></i> Sauvegarder</button>
+              <button class="btn btn-primary" id="downloadPatient"><i class="fas fa-download"></i> Télécharger</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times"></i> Fermer</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+   </div>
+    </div>
+    <script>
+  // Remplit le formulaire de modification avec les données du patient
+  document.querySelectorAll('.btnEditPatient').forEach(button => {
+    button.addEventListener('click', function () {
+      const patientId = this.dataset.id;
+      const nom = this.dataset.nom;
+      const prenom = this.dataset.prenom;
+      const dateNaissance = this.dataset.date;
+      const sexe = this.dataset.sexe;
+      const adresse = this.dataset.adresse;
+      const service = this.dataset.service;
+      const medecin = this.dataset.medecin;
+
+      // Remplit les champs du formulaire
+      document.querySelector('#editPatientForm').action = `/modifier-patient/${patientId}/`;
+      document.querySelector('#edit_nom').value = nom;
+      document.querySelector('#edit_prenom').value = prenom;
+      document.querySelector('#edit_date_naissance').value = dateNaissance;
+      document.querySelector('#edit_sexe').value = sexe;
+      document.querySelector('#edit_adresse').value = adresse;
+      document.querySelector('#edit_service').value = service;
+      document.querySelector('#edit_medecin').value = medecin;
+    });
+  });
+</script>
+<script>
+  // Confirme la suppression avec un message doux
+  document.querySelectorAll('.btnDeletePatient').forEach(button => {
+    button.addEventListener('click', function () {
+      const id = this.dataset.id;
+      const nom = this.dataset.nom;
+
+      // Met à jour le formulaire de suppression
+      const form = document.querySelector('#deletePatientForm');
+      form.action = `/supprimer-patient/${id}/`;
+
+      // Affiche le nom dans le message du modal
+      document.querySelector('#deletePatientName').textContent = nom;
+    });
+  });
+</script>
+
+    
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+
+</html>
