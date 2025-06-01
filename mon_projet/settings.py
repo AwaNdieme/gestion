@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 #LOGIN_REDIRECT_URL = 'accueil'   Redirige vers la page d'accueil après connexion
 LOGOUT_REDIRECT_URL = '/login/' 
 LOGIN_REDIRECT_URL = '/accueil/'
-
+LOGOUT_REDIRECT_URL = '/login/'           # Page après logout
 # Application definition
 
 INSTALLED_APPS = [
@@ -139,3 +139,48 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+##POUR LE LOGS
+
+import os  # Module pour les opérations sur les chemins de fichiers
+
+# Configuration du système de journalisation (logging)
+LOGGING = {
+    # Version du schéma de configuration (toujours 1 actuellement)
+    'version': 1,
+    
+    # Si True, désactive tous les loggers existants
+    'disable_existing_loggers': False,
+    
+    # Définition des formats de log disponibles
+    'formatters': {
+        'verbose': {
+            # Format détaillé incluant :
+            # - niveau de log, date/heure, module, 
+            # - ID processus, ID thread et message
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',  # Utilisation des accolades pour le formatage
+        },
+    },
+    
+    # Définition des gestionnaires (handlers) qui déterminent où vont les logs
+    'handlers': {
+        'file': {
+            'level': 'INFO',  # Niveau minimal pour ce handler (INFO et supérieurs)
+            'class': 'logging.handlers.RotatingFileHandler',  # Handler avec rotation
+            'filename': 'logs/app.log',  # Chemin du fichier de log principal
+            'maxBytes': 1024*1024*5,  # Taille max avant rotation (5 Mo ici)
+            'backupCount': 5,  # Nombre de fichiers de backup à conserver
+            'formatter': 'verbose'  # Utilisation du formateur 'verbose' défini plus haut
+        },
+    },
+    
+    # Configuration des loggers (enregistreurs)
+    'loggers': {
+        '': {  # Logger racine (capture tous les logs)
+            'handlers': ['file'],  # Utilise le handler 'file'
+            'level': 'INFO',  # Niveau minimal de log
+            'propagate': True,  # Permet la propagation aux loggers parents
+        },
+    }
+}

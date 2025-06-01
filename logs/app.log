@@ -1,0 +1,743 @@
+INFO 2025-05-29 00:07:38,218 autoreload 22628 20988 Watching for file changes with StatReloader
+INFO 2025-05-29 00:08:16,533 autoreload 22628 20988 C:\Users\awa\Desktop\mon_projet\gestion\gestion\blog\views.py changed, reloading.
+INFO 2025-05-29 00:08:17,111 autoreload 17328 13416 Watching for file changes with StatReloader
+INFO 2025-05-29 00:10:31,113 autoreload 17328 13416 C:\Users\awa\Desktop\mon_projet\gestion\gestion\blog\views.py changed, reloading.
+INFO 2025-05-29 00:10:32,455 autoreload 16244 11860 Watching for file changes with StatReloader
+INFO 2025-05-29 00:11:02,960 autoreload 16244 11860 C:\Users\awa\Desktop\mon_projet\gestion\gestion\blog\views.py changed, reloading.
+INFO 2025-05-29 00:11:04,517 autoreload 6280 17096 Watching for file changes with StatReloader
+INFO 2025-05-29 00:12:03,687 views 6280 20828 Consultation de l'accueil par l'utilisateur awa
+ERROR 2025-05-29 00:12:04,275 log 6280 20828 Internal Server Error: /accueil/
+Traceback (most recent call last):
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\blog\views.py", line 131, in accueil
+    return render(request, 'blog/accueil.html', context)
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\template\defaulttags.py", line 327, in render
+    return nodelist.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'view_logs' not found. 'view_logs' is not a valid view function or pattern name.
+INFO 2025-05-29 00:14:09,608 autoreload 6280 17096 C:\Users\awa\Desktop\mon_projet\gestion\gestion\blog\urls.py changed, reloading.
+INFO 2025-05-29 00:14:12,335 autoreload 17480 17700 Watching for file changes with StatReloader
+INFO 2025-05-29 00:14:16,976 views 17480 21680 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:15:21,448 views 17480 21680 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 00:15:21,874 log 17480 21680 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 00:15:30,627 views 17480 21680 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 00:15:30,790 log 17480 21680 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 00:15:38,704 views 17480 21680 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:16:45,969 views 17480 21680 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 00:16:46,141 log 17480 21680 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 00:16:57,933 views 17480 21680 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-29 00:17:03,362 views 17480 21680 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-29 00:17:06,986 views 17480 21680 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:22:14,376 views 17480 13332 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:27:11,831 views 17480 13332 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:27:51,171 views 17480 13332 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:27:54,488 views 17480 13332 Consultation du profile par l'utilisateur awa
+INFO 2025-05-29 00:34:11,837 views 17480 11860 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:34:14,341 views 17480 11860 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:34:17,998 views 17480 11860 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 00:34:20,634 views 17480 11860 Consultation des patients par l'utilisateur awa
+INFO 2025-05-29 00:34:22,482 views 17480 11860 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 00:34:27,707 views 17480 11860 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 00:34:27,994 log 17480 11860 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 00:34:29,361 views 17480 11860 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 00:34:29,567 log 17480 11860 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 00:34:30,708 views 17480 11860 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 00:34:32,522 views 17480 11860 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-29 00:40:06,547 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:43:25,602 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:43:26,872 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:43:27,419 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:43:27,653 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:43:28,622 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:44:21,042 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:44:24,788 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:45:30,364 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:46:08,494 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:46:09,731 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:46:10,397 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:46:11,641 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:46:12,790 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:47:08,570 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:48:03,602 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:48:29,289 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:49:28,774 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:49:33,314 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:51:29,552 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:52:00,358 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:55:13,243 views 17480 21708 Consultation du profile par l'utilisateur awa
+INFO 2025-05-29 00:57:45,097 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:58:33,275 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:58:35,558 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:58:38,720 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:58:41,634 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 00:59:35,012 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 01:04:23,285 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 01:04:26,287 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 01:04:37,703 views 17480 21708 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 01:12:14,803 views 17480 12820 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:12:15,035 log 17480 12820 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:15:08,868 views 17480 12820 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:15:09,149 log 17480 12820 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:15:17,973 views 17480 12820 Suppression du service 14 par l'utilisateur awa
+INFO 2025-05-29 01:15:18,100 views 17480 12820 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:15:18,381 log 17480 12820 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:15:22,432 views 17480 12820 Suppression du service 15 par l'utilisateur awa
+INFO 2025-05-29 01:15:22,576 views 17480 12820 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:15:22,759 log 17480 12820 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:15:26,739 views 17480 12820 Suppression du service 16 par l'utilisateur awa
+INFO 2025-05-29 01:15:27,163 views 17480 12820 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:15:27,352 log 17480 12820 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:15:30,865 views 17480 12820 Suppression du service 17 par l'utilisateur awa
+INFO 2025-05-29 01:15:30,978 views 17480 12820 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:15:31,149 log 17480 12820 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:16:45,041 views 17480 12820 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 01:17:12,673 views 17480 12820 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:17:12,950 log 17480 12820 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:27:01,243 views 17480 17340 Suppression du service 18 par l'utilisateur awa
+INFO 2025-05-29 01:27:01,298 views 17480 17340 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:27:01,458 log 17480 17340 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:27:05,859 views 17480 17340 Suppression du service 19 par l'utilisateur awa
+INFO 2025-05-29 01:27:05,959 views 17480 17340 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:27:06,097 log 17480 17340 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:27:10,254 views 17480 17340 Suppression du service 20 par l'utilisateur awa
+INFO 2025-05-29 01:27:10,364 views 17480 17340 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:27:10,503 log 17480 17340 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:27:14,196 views 17480 17340 Suppression du service 21 par l'utilisateur awa
+INFO 2025-05-29 01:27:14,279 views 17480 17340 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:27:14,448 log 17480 17340 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:27:18,783 views 17480 17340 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 01:27:25,444 views 17480 17340 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 01:27:49,455 views 17480 17340 Ajout d'un bureau par l'utilisateur awa
+INFO 2025-05-29 01:27:49,520 views 17480 17340 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 01:28:07,870 views 17480 17340 Ajout d'un bureau par l'utilisateur awa
+INFO 2025-05-29 01:28:07,950 views 17480 17340 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 01:28:23,402 views 17480 17340 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 01:28:34,919 views 17480 17340 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 01:28:39,541 views 17480 17020 Consultation des patients par l'utilisateur awa
+INFO 2025-05-29 01:28:50,529 views 17480 10220 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 01:28:56,736 views 17480 10220 Consultation des patients par l'utilisateur awa
+INFO 2025-05-29 01:29:00,847 views 17480 10220 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 01:29:03,741 views 17480 10220 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-29 01:29:07,308 views 17480 10220 Consultation des patients par l'utilisateur awa
+INFO 2025-05-29 01:29:17,267 views 17480 10220 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 01:29:22,986 views 17480 10220 Suppression du médecin 2 par l'utilisateur awa
+INFO 2025-05-29 01:29:23,067 views 17480 10220 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 01:31:01,118 views 17480 10220 Suppression du médecin 6 par l'utilisateur awa
+INFO 2025-05-29 01:31:01,187 views 17480 10220 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 01:31:05,190 views 17480 10220 Suppression du médecin 4 par l'utilisateur awa
+INFO 2025-05-29 01:31:05,270 views 17480 10220 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 01:32:05,266 views 17480 10220 Consultation du profile par l'utilisateur awa
+INFO 2025-05-29 01:33:45,926 views 17480 10220 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 01:33:50,098 views 17480 10220 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:33:50,290 log 17480 10220 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:34:07,333 views 17480 10220 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 01:36:02,437 views 17480 18824 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:36:02,653 log 17480 18824 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:36:31,700 views 17480 18824 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 01:36:47,568 views 17480 18824 Modification du bureau 25 par l'utilisateur awa
+INFO 2025-05-29 01:36:47,665 views 17480 18824 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 01:37:20,768 views 17480 17772 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:37:20,944 log 17480 17772 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:37:27,933 views 17480 17772 Suppression du service 26 par l'utilisateur awa
+INFO 2025-05-29 01:37:28,023 views 17480 17772 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:37:28,201 log 17480 17772 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:37:31,857 views 17480 17772 Suppression du service 27 par l'utilisateur awa
+INFO 2025-05-29 01:37:31,954 views 17480 17772 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:37:32,114 log 17480 17772 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:37:37,391 views 17480 17772 Suppression du service 28 par l'utilisateur awa
+INFO 2025-05-29 01:37:37,489 views 17480 17772 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:37:37,663 log 17480 17772 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:37:43,170 views 17480 17772 Suppression du service 29 par l'utilisateur awa
+INFO 2025-05-29 01:37:43,272 views 17480 17772 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:37:43,435 log 17480 17772 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:37:47,483 views 17480 17772 Suppression du service 30 par l'utilisateur awa
+INFO 2025-05-29 01:37:47,586 views 17480 17772 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:37:47,727 log 17480 17772 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:37:52,438 views 17480 17772 Suppression du service 31 par l'utilisateur awa
+INFO 2025-05-29 01:37:52,542 views 17480 17772 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:37:52,728 log 17480 17772 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:37:55,815 views 17480 17772 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 01:38:06,670 views 17480 17772 Suppression du bureau 17 par l'utilisateur awa
+INFO 2025-05-29 01:38:06,747 views 17480 17772 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 01:38:11,921 views 17480 17772 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 01:39:17,070 views 17480 17772 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 01:39:17,348 log 17480 17772 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 01:40:01,162 views 17480 17772 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 01:41:24,464 views 17480 17772 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 01:43:27,992 views 17480 17772 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 01:43:35,148 views 17480 17772 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 01:43:55,569 views 17480 17772 Modification de l'infirmier 3 par l'utilisateur awa
+INFO 2025-05-29 01:43:55,662 views 17480 17772 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 01:44:08,088 views 17480 17772 Modification de l'infirmier 4 par l'utilisateur awa
+INFO 2025-05-29 01:44:08,180 views 17480 17772 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 01:44:53,945 views 17480 17772 Modification de l'infirmier 5 par l'utilisateur awa
+INFO 2025-05-29 01:44:54,041 views 17480 17772 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 01:45:14,876 views 17480 17772 Modification de l'infirmier 3 par l'utilisateur awa
+INFO 2025-05-29 01:45:14,958 views 17480 17772 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 01:48:29,021 views 17480 17772 Modification de l'infirmier 4 par l'utilisateur awa
+INFO 2025-05-29 01:48:29,133 views 17480 17772 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 01:51:53,327 views 17480 17772 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 01:51:53,932 views 17480 17772 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 01:52:05,481 views 17480 17772 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 01:52:07,957 views 17480 17772 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 01:59:08,503 views 17480 8636 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 02:00:14,022 views 17480 8636 Suppression de l'infirmier 7 par l'utilisateur awa
+INFO 2025-05-29 02:00:14,068 views 17480 8636 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 02:00:22,162 views 17480 8636 Suppression de l'infirmier 6 par l'utilisateur awa
+INFO 2025-05-29 02:00:22,235 views 17480 8636 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 02:00:34,414 views 17480 8636 Modification de l'infirmier 3 par l'utilisateur awa
+INFO 2025-05-29 02:00:34,497 views 17480 8636 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 14:11:53,198 autoreload 18164 18752 Watching for file changes with StatReloader
+INFO 2025-05-29 14:12:02,343 views 18164 23256 Tentative de connexion par l'utilisateur inconnu
+WARNING 2025-05-29 14:12:03,768 log 18164 23256 Not Found: /favicon.ico
+INFO 2025-05-29 14:12:05,958 views 18164 23256 Tentative de connexion par l'utilisateur awa
+INFO 2025-05-29 14:12:07,445 views 18164 23256 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 14:12:20,927 views 18164 13092 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 14:12:20,984 log 18164 13092 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 14:13:26,140 views 18164 13092 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 14:13:29,657 views 18164 13092 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 14:25:17,411 autoreload 18164 18752 C:\Users\awa\Desktop\mon_projet\gestion\gestion\blog\views.py changed, reloading.
+INFO 2025-05-29 14:25:18,057 autoreload 10792 800 Watching for file changes with StatReloader
+INFO 2025-05-29 14:26:05,156 autoreload 10792 800 C:\Users\awa\Desktop\mon_projet\gestion\gestion\blog\views.py changed, reloading.
+INFO 2025-05-29 14:26:05,736 autoreload 23480 12720 Watching for file changes with StatReloader
+INFO 2025-05-29 14:26:11,199 views 23480 21456 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 14:26:26,626 views 23480 21456 Ajout d'un médecin par l'utilisateur awa
+INFO 2025-05-29 14:26:26,699 views 23480 21456 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 14:47:08,121 views 23480 11088 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 14:47:08,424 log 23480 11088 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:00:55,715 views 23480 15832 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:00:55,784 log 23480 15832 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:08:33,695 views 23480 14872 Export des services au format CSV par l'utilisateur awa
+INFO 2025-05-29 16:08:55,047 views 23480 14872 Export des services au format Excel par l'utilisateur awa
+INFO 2025-05-29 16:09:08,986 views 23480 14872 Export des services au format CSV par l'utilisateur awa
+INFO 2025-05-29 16:10:11,860 views 23480 17100 Tentative de connexion par l'utilisateur inconnu
+WARNING 2025-05-29 16:10:13,901 log 23480 17100 Not Found: /favicon.ico
+INFO 2025-05-29 16:10:23,949 views 23480 17100 Tentative de connexion par l'utilisateur awa
+INFO 2025-05-29 16:10:25,249 views 23480 17100 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 16:10:30,819 views 23480 22884 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:10:30,862 log 23480 22884 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:10:34,869 views 23480 22884 Export des services au format CSV par l'utilisateur awa
+INFO 2025-05-29 16:11:05,963 views 23480 22884 Export des services au format PDF par l'utilisateur awa
+INFO 2025-05-29 16:14:20,384 autoreload 23480 12720 C:\Users\awa\Desktop\mon_projet\gestion\gestion\blog\views.py changed, reloading.
+INFO 2025-05-29 16:14:21,077 autoreload 22628 14016 Watching for file changes with StatReloader
+INFO 2025-05-29 16:14:32,036 views 22628 15168 Tentative de connexion par l'utilisateur inconnu
+WARNING 2025-05-29 16:14:32,203 log 22628 15168 Not Found: /favicon.ico
+INFO 2025-05-29 16:14:34,223 views 22628 15168 Tentative de connexion par l'utilisateur awa
+INFO 2025-05-29 16:14:35,536 views 22628 15168 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 16:14:38,946 views 22628 14344 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:14:39,003 log 22628 14344 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:14:43,022 views 22628 14344 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:14:43,067 log 22628 14344 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:14:46,435 views 22628 14344 Export des services au format CSV par l'utilisateur awa
+INFO 2025-05-29 16:14:46,438 views 22628 14344 Export CSV réussi - 4 services exportés
+INFO 2025-05-29 16:15:10,325 views 22628 8272 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:15:10,387 log 22628 8272 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:15:11,025 views 22628 8272 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:15:11,072 log 22628 8272 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:15:11,245 views 22628 8272 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:15:11,289 log 22628 8272 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:15:14,564 views 22628 8272 Export des services au format CSV par l'utilisateur awa
+INFO 2025-05-29 16:15:14,567 views 22628 8272 Export CSV réussi - 4 services exportés
+INFO 2025-05-29 16:15:33,209 views 22628 14344 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 16:15:36,512 views 22628 14344 Export des bureaux au format CSV par l'utilisateur awa
+INFO 2025-05-29 16:16:11,256 views 22628 14344 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:16:11,321 log 22628 14344 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:18:39,910 views 22628 14344 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:18:39,976 log 22628 14344 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:21:16,128 autoreload 1420 12608 Watching for file changes with StatReloader
+INFO 2025-05-29 16:21:29,841 views 1420 15168 Tentative de connexion par l'utilisateur inconnu
+WARNING 2025-05-29 16:21:30,080 log 1420 15168 Not Found: /favicon.ico
+INFO 2025-05-29 16:21:31,700 views 1420 15168 Tentative de connexion par l'utilisateur awa
+INFO 2025-05-29 16:21:33,365 views 1420 15168 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 16:21:35,696 views 1420 15172 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:21:35,763 log 1420 15172 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:21:51,647 views 1420 15172 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:21:51,698 log 1420 15172 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:22:00,794 views 1420 16308 Suppression du service 22 par l'utilisateur awa
+INFO 2025-05-29 16:22:00,845 views 1420 16308 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:22:00,902 log 1420 16308 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:25:39,825 views 1420 16308 Export des services au format Excel par l'utilisateur awa
+INFO 2025-05-29 16:26:34,705 views 1420 16308 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 16:26:39,091 views 1420 16308 Export des bureaux au format CSV par l'utilisateur awa
+INFO 2025-05-29 16:27:52,773 views 1420 16308 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 16:27:54,487 views 1420 16308 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 16:27:58,810 views 1420 16308 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:27:58,855 log 1420 16308 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:28:02,591 views 1420 16308 Export des services au format PDF par l'utilisateur awa
+INFO 2025-05-29 16:28:32,172 views 1420 16308 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:28:32,217 log 1420 16308 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:28:43,799 views 1420 16308 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:28:43,837 log 1420 16308 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:30:54,283 views 1420 16308 Export des services au format Excel par l'utilisateur awa
+INFO 2025-05-29 16:32:35,027 autoreload 1420 12608 C:\Users\awa\Desktop\mon_projet\gestion\gestion\blog\views.py changed, reloading.
+INFO 2025-05-29 16:32:35,720 autoreload 8644 13928 Watching for file changes with StatReloader
+INFO 2025-05-29 16:32:48,669 views 8644 13488 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:32:48,774 log 8644 13488 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:32:58,204 views 8644 13488 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:32:58,252 log 8644 13488 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:33:04,480 views 8644 13488 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:33:04,547 log 8644 13488 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:33:08,768 views 8644 13488 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:33:08,813 log 8644 13488 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:33:12,402 views 8644 13488 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:33:12,470 log 8644 13488 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:33:13,411 views 8644 13488 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:33:13,475 log 8644 13488 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:33:13,629 views 8644 13488 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:33:13,684 log 8644 13488 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:33:47,871 autoreload 8644 13928 C:\Users\awa\Desktop\mon_projet\gestion\gestion\blog\views.py changed, reloading.
+INFO 2025-05-29 16:33:48,492 autoreload 5624 11360 Watching for file changes with StatReloader
+INFO 2025-05-29 16:33:50,237 autoreload 5624 11360 C:\Users\awa\Desktop\mon_projet\gestion\gestion\blog\views.py changed, reloading.
+INFO 2025-05-29 16:33:50,852 autoreload 1504 5448 Watching for file changes with StatReloader
+INFO 2025-05-29 16:33:56,104 views 1504 8560 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:33:56,168 log 1504 8560 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:33:57,106 views 1504 8560 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:33:57,135 log 1504 8560 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:33:57,311 views 1504 8560 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:33:57,353 log 1504 8560 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:34:22,512 views 1504 8560 Export des services au format PDF par l'utilisateur awa
+INFO 2025-05-29 16:34:34,540 views 1504 8560 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:34:34,591 log 1504 8560 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:34:44,925 views 1504 8560 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:34:44,960 log 1504 8560 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:38:13,645 views 1504 8560 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:38:13,676 log 1504 8560 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:38:54,228 views 1504 8560 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:38:54,307 log 1504 8560 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:38:58,256 views 1504 8560 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:38:58,300 log 1504 8560 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:39:04,637 views 1504 8560 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:39:04,683 log 1504 8560 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:39:21,322 views 1504 8560 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:39:21,367 log 1504 8560 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:39:42,522 views 1504 8560 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 16:39:42,562 log 1504 8560 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 16:40:50,068 views 1504 8560 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 16:40:58,786 views 1504 8560 Modification du bureau 20 par l'utilisateur awa
+INFO 2025-05-29 16:40:58,816 views 1504 8560 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 16:41:07,238 views 1504 8560 Modification du bureau 20 par l'utilisateur awa
+INFO 2025-05-29 16:41:07,259 views 1504 8560 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 16:46:18,649 views 1504 15596 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 16:46:57,845 views 1504 15596 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 16:47:04,192 views 1504 15596 Export des bureaux au format PDF par l'utilisateur awa
+INFO 2025-05-29 16:48:25,895 views 1504 15596 Export des bureaux au format Excel par l'utilisateur awa
+INFO 2025-05-29 16:48:54,061 views 1504 15596 Export des bureaux au format CSV par l'utilisateur awa
+INFO 2025-05-29 17:38:42,162 views 1504 20140 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 17:39:53,332 views 1504 20140 Modification de l'infirmier 5 par l'utilisateur awa
+INFO 2025-05-29 17:39:53,433 views 1504 20140 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 17:44:35,025 views 1504 20140 Export des infirmiers au format CSV par l'utilisateur awa
+INFO 2025-05-29 17:45:12,111 views 1504 20140 Export des infirmiers au format Excel par l'utilisateur awa
+INFO 2025-05-29 17:45:39,525 views 1504 20140 Export des infirmiers au format PDF par l'utilisateur awa
+ERROR 2025-05-29 17:45:40,972 log 1504 20140 Internal Server Error: /export_infirmiers_pdf/
+Traceback (most recent call last):
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 523, in open_for_read
+    return open_for_read_by_name(name,mode)
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 463, in open_for_read_by_name
+    return open(name,mode)
+FileNotFoundError: [Errno 2] No such file or directory: 'static/blog/img/infirmier.jpg'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 530, in open_for_read
+    return BytesIO((datareader if name[:5].lower()=='data:' else rlUrlRead)(name))
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 476, in rlUrlRead
+    return urlopen(name).read()
+           ~~~~~~~^^^^^^
+  File "C:\Users\awa\AppData\Local\Programs\Python\Python313\Lib\urllib\request.py", line 189, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\awa\AppData\Local\Programs\Python\Python313\Lib\urllib\request.py", line 473, in open
+    req = Request(fullurl, data)
+  File "C:\Users\awa\AppData\Local\Programs\Python\Python313\Lib\urllib\request.py", line 292, in __init__
+    self.full_url = url
+    ^^^^^^^^^^^^^
+  File "C:\Users\awa\AppData\Local\Programs\Python\Python313\Lib\urllib\request.py", line 318, in full_url
+    self._parse()
+    ~~~~~~~~~~~^^
+  File "C:\Users\awa\AppData\Local\Programs\Python\Python313\Lib\urllib\request.py", line 347, in _parse
+    raise ValueError("unknown url type: %r" % self.full_url)
+ValueError: unknown url type: 'static/blog/img/infirmier.jpg'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 643, in __init__
+    fp = open_for_read(fileName,'b')
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 532, in open_for_read
+    raise IOError('Cannot open resource "%s"' % name)
+OSError: Cannot open resource "static/blog/img/infirmier.jpg"
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\platypus\paraparser.py", line 3218, in parse
+    self.feed(text)
+    ~~~~~~~~~^^^^^^
+  File "C:\Users\awa\AppData\Local\Programs\Python\Python313\Lib\html\parser.py", line 111, in feed
+    self.goahead(0)
+    ~~~~~~~~~~~~^^^
+  File "C:\Users\awa\AppData\Local\Programs\Python\Python313\Lib\html\parser.py", line 171, in goahead
+    k = self.parse_starttag(i)
+  File "C:\Users\awa\AppData\Local\Programs\Python\Python313\Lib\html\parser.py", line 336, in parse_starttag
+    self.handle_startendtag(tag, attrs)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\awa\AppData\Local\Programs\Python\Python313\Lib\html\parser.py", line 421, in handle_startendtag
+    self.handle_endtag(tag)
+    ~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\platypus\paraparser.py", line 3254, in handle_endtag
+    end()
+    ~~~^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\platypus\paraparser.py", line 2719, in end_img
+    defn.image = ImageReader(defn.src)
+                 ~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 655, in __init__
+    annotateException('\nfileName=%r identity=%s'%(fileName,self.identity()))
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 1176, in annotateException
+    rl_reraise(t,t(sep.join((_ for _ in (msg,str(v),postMsg) if _))),b)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 138, in rl_reraise
+    raise v.with_traceback(b)
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 643, in __init__
+    fp = open_for_read(fileName,'b')
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 532, in open_for_read
+    raise IOError('Cannot open resource "%s"' % name)
+OSError: 
+fileName='static/blog/img/infirmier.jpg' identity=[ImageReader@0x1f0754aa120 filename='static/blog/img/infirmier.jpg'] Cannot open resource "static/blog/img/infirmier.jpg"
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\blog\views.py", line 789, in export_infirmiers_pdf
+    elements.append(Paragraph("<img src='static/blog/img/infirmier.jpg' width='50' height='50'/><br/>",
+                    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           styles['Normal']))
+                           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\platypus\paragraph.py", line 1859, in __init__
+    self._setup(text, style, bulletText or getattr(style,'bulletText',None), frags, cleanBlockQuotedText)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\platypus\paragraph.py", line 1880, in _setup
+    style, frags, bulletTextFrags = _parser.parse(text,style)
+                                    ~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\platypus\paraparser.py", line 3220, in parse
+    annotateException('\nparagraph text %s caused exception' % ascii(text))
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 1176, in annotateException
+    rl_reraise(t,t(sep.join((_ for _ in (msg,str(v),postMsg) if _))),b)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 138, in rl_reraise
+    raise v.with_traceback(b)
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\platypus\paraparser.py", line 3218, in parse
+    self.feed(text)
+    ~~~~~~~~~^^^^^^
+  File "C:\Users\awa\AppData\Local\Programs\Python\Python313\Lib\html\parser.py", line 111, in feed
+    self.goahead(0)
+    ~~~~~~~~~~~~^^^
+  File "C:\Users\awa\AppData\Local\Programs\Python\Python313\Lib\html\parser.py", line 171, in goahead
+    k = self.parse_starttag(i)
+  File "C:\Users\awa\AppData\Local\Programs\Python\Python313\Lib\html\parser.py", line 336, in parse_starttag
+    self.handle_startendtag(tag, attrs)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\awa\AppData\Local\Programs\Python\Python313\Lib\html\parser.py", line 421, in handle_startendtag
+    self.handle_endtag(tag)
+    ~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\platypus\paraparser.py", line 3254, in handle_endtag
+    end()
+    ~~~^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\platypus\paraparser.py", line 2719, in end_img
+    defn.image = ImageReader(defn.src)
+                 ~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 655, in __init__
+    annotateException('\nfileName=%r identity=%s'%(fileName,self.identity()))
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 1176, in annotateException
+    rl_reraise(t,t(sep.join((_ for _ in (msg,str(v),postMsg) if _))),b)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 138, in rl_reraise
+    raise v.with_traceback(b)
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 643, in __init__
+    fp = open_for_read(fileName,'b')
+  File "C:\Users\awa\Desktop\mon_projet\gestion\gestion\env\Lib\site-packages\reportlab\lib\utils.py", line 532, in open_for_read
+    raise IOError('Cannot open resource "%s"' % name)
+OSError: 
+paragraph text "<para><img src='static/blog/img/infirmier.jpg' width='50' height='50'/><br/></para>" caused exception 
+fileName='static/blog/img/infirmier.jpg' identity=[ImageReader@0x1f0754aa120 filename='static/blog/img/infirmier.jpg'] Cannot open resource "static/blog/img/infirmier.jpg"
+INFO 2025-05-29 17:48:03,187 autoreload 6532 17568 Watching for file changes with StatReloader
+INFO 2025-05-29 17:48:10,720 views 6532 3504 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 17:48:14,629 views 6532 3504 Export des infirmiers au format PDF par l'utilisateur awa
+INFO 2025-05-29 17:49:16,431 views 6532 3504 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 17:49:21,440 views 6532 3504 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 17:49:23,545 views 6532 3504 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 17:49:31,200 views 6532 3504 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 18:10:13,931 views 6532 19780 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 18:10:51,921 views 6532 19780 Modification du médecin 8 par l'utilisateur awa
+INFO 2025-05-29 18:10:51,968 views 6532 19780 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 18:11:49,852 views 6532 19780 Ajout d'un médecin par l'utilisateur awa
+INFO 2025-05-29 18:11:50,132 views 6532 19780 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 18:13:02,305 views 6532 19780 Ajout d'un médecin par l'utilisateur awa
+INFO 2025-05-29 18:13:02,397 views 6532 19780 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 18:13:13,422 views 6532 19780 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-29 18:13:17,451 views 6532 19780 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 18:13:20,627 views 6532 19780 Consultation des patients par l'utilisateur awa
+INFO 2025-05-29 18:13:24,534 views 6532 19780 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-29 18:13:26,968 views 6532 19780 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-29 18:13:29,801 views 6532 19780 Consultation des services par l'utilisateur awa
+WARNING 2025-05-29 18:13:30,030 log 6532 19780 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-29 18:14:16,297 views 6532 19780 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 18:14:50,310 views 6532 19780 Modification du médecin 8 par l'utilisateur awa
+INFO 2025-05-29 18:14:50,394 views 6532 19780 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 18:15:02,653 views 6532 19780 Modification du médecin 9 par l'utilisateur awa
+INFO 2025-05-29 18:15:02,729 views 6532 19780 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 18:18:06,655 views 6532 19780 Ajout d'un médecin par l'utilisateur awa
+INFO 2025-05-29 18:18:06,688 views 6532 19780 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 18:19:39,807 views 6532 17848 Modification du médecin 8 par l'utilisateur awa
+INFO 2025-05-29 18:19:39,870 views 6532 17848 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 18:20:39,032 views 6532 17848 Ajout d'un médecin par l'utilisateur awa
+INFO 2025-05-29 18:20:39,073 views 6532 17848 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 18:22:19,041 views 6532 8276 Ajout d'un médecin par l'utilisateur awa
+INFO 2025-05-29 18:22:19,076 views 6532 8276 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 18:23:02,452 views 6532 8276 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 18:23:44,344 views 6532 8276 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-29 18:23:47,969 views 6532 8276 Export des médecins au format CSV par l'utilisateur awa
+INFO 2025-05-29 18:24:01,605 views 6532 8276 Export des médecins au format Excel par l'utilisateur awa
+INFO 2025-05-29 18:24:42,160 views 6532 1308 Export des médecins au format PDF par l'utilisateur awa
+INFO 2025-05-29 18:35:48,527 views 6532 4640 Consultation des patients par l'utilisateur awa
+INFO 2025-05-29 18:36:21,240 views 6532 4640 Modification du patient 4 par l'utilisateur awa
+INFO 2025-05-29 18:36:21,374 views 6532 4640 Consultation des patients par l'utilisateur awa
+INFO 2025-05-29 18:37:33,375 views 6532 4640 Modification du patient 9 par l'utilisateur awa
+INFO 2025-05-29 18:37:33,470 views 6532 4640 Consultation des patients par l'utilisateur awa
+INFO 2025-05-29 18:38:42,935 views 6532 4640 Modification du patient 7 par l'utilisateur awa
+INFO 2025-05-29 18:38:43,032 views 6532 4640 Consultation des patients par l'utilisateur awa
+INFO 2025-05-29 18:38:49,526 views 6532 4640 Suppression du patient 8 par l'utilisateur awa
+INFO 2025-05-29 18:38:49,611 views 6532 4640 Consultation des patients par l'utilisateur awa
+INFO 2025-05-29 18:38:56,625 views 6532 4640 Suppression du patient 5 par l'utilisateur awa
+INFO 2025-05-29 18:38:56,702 views 6532 4640 Consultation des patients par l'utilisateur awa
+INFO 2025-05-29 18:40:30,341 views 6532 20312 Ajout d'un patient par l'utilisateur awa
+INFO 2025-05-29 18:40:30,428 views 6532 20312 Consultation des patients par l'utilisateur awa
+INFO 2025-05-29 18:42:05,469 views 6532 20312 Consultation des patients par l'utilisateur awa
+INFO 2025-05-29 18:43:56,288 views 6532 20312 Export des patients au format CSV par l'utilisateur awa
+INFO 2025-05-29 18:44:00,099 views 6532 20312 Export des patients au format Excel par l'utilisateur awa
+INFO 2025-05-29 18:44:03,947 views 6532 20312 Export des patients au format PDF par l'utilisateur awa
+INFO 2025-05-29 19:00:08,985 views 6532 8824 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-29 19:01:04,771 views 6532 8824 Modification du rendez-vous 6 par l'utilisateur awa
+INFO 2025-05-29 19:01:04,875 views 6532 8824 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-29 19:01:22,659 views 6532 8824 Modification du rendez-vous 8 par l'utilisateur awa
+INFO 2025-05-29 19:01:22,750 views 6532 8824 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-29 19:01:50,260 views 6532 8824 Ajout d'un rendez-vous par l'utilisateur awa
+INFO 2025-05-29 19:01:50,347 views 6532 8824 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-29 19:03:55,657 views 6532 8824 Ajout d'un rendez-vous par l'utilisateur awa
+INFO 2025-05-29 19:03:55,755 views 6532 8824 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-29 19:04:47,649 views 6532 8824 Modification du rendez-vous 6 par l'utilisateur awa
+INFO 2025-05-29 19:04:47,756 views 6532 8824 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-29 19:05:48,298 views 6532 8824 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-29 19:06:41,021 views 6532 8824 Export des rendez-vous au format CSV par l'utilisateur awa
+INFO 2025-05-29 19:06:44,481 views 6532 8824 Export des rendez-vous au format Excel par l'utilisateur awa
+INFO 2025-05-29 19:06:48,019 views 6532 8824 Export des rendez-vous au format PDF par l'utilisateur awa
+WARNING 2025-05-29 19:08:36,625 log 6532 8824 Not Found: /view-logs/static/blog/img/infirmier.jpg
+INFO 2025-05-29 19:09:57,943 views 6532 9924 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-29 19:10:03,363 views 6532 9924 Consultation du profile par l'utilisateur awa
+INFO 2025-05-29 19:11:05,361 views 6532 9924 Déconnexion de l'utilisateur :inconnu
+INFO 2025-05-29 19:11:05,438 views 6532 9924 Tentative de connexion par l'utilisateur inconnu
+INFO 2025-05-29 19:12:30,025 views 6532 9924 Tentative de connexion par l'utilisateur awa
+INFO 2025-05-29 19:12:32,656 views 6532 9924 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-29 19:42:05,356 views 6532 17928 Consultation des patients par l'utilisateur awa
+INFO 2025-05-29 19:43:03,459 views 6532 17928 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-30 19:41:15,980 autoreload 18004 14668 Watching for file changes with StatReloader
+INFO 2025-05-30 19:41:27,001 views 18004 15492 Tentative de connexion par l'utilisateur inconnu
+WARNING 2025-05-30 19:41:28,248 log 18004 15492 Not Found: /favicon.ico
+INFO 2025-05-30 19:41:32,092 views 18004 15492 Tentative de connexion par l'utilisateur awa
+INFO 2025-05-30 19:41:33,512 views 18004 15492 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-30 19:41:43,795 views 18004 19144 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-30 19:41:47,729 views 18004 19144 Consultation des patients par l'utilisateur awa
+INFO 2025-05-30 19:41:55,529 views 18004 19144 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-30 19:41:57,732 views 18004 19144 Consultation des services par l'utilisateur awa
+WARNING 2025-05-30 19:41:58,189 log 18004 19144 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-30 19:41:59,308 views 18004 19144 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-30 19:42:01,164 views 18004 19144 Consultation des patients par l'utilisateur awa
+INFO 2025-05-30 19:42:06,328 views 18004 19144 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-30 19:42:10,944 views 18004 19144 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-30 19:42:13,057 views 18004 19144 Consultation des services par l'utilisateur awa
+WARNING 2025-05-30 19:42:13,115 log 18004 19144 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-30 19:42:14,381 views 18004 19144 Consultation des services par l'utilisateur awa
+WARNING 2025-05-30 19:42:14,417 log 18004 19144 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-30 19:42:17,137 views 18004 19144 Consultation des services par l'utilisateur awa
+WARNING 2025-05-30 19:42:17,185 log 18004 19144 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-30 19:42:32,301 views 18004 19144 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-30 19:42:33,780 views 18004 19144 Consultation des patients par l'utilisateur awa
+INFO 2025-05-30 19:42:35,575 views 18004 19144 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-30 19:43:19,281 views 18004 19144 Tentative de connexion par l'utilisateur inconnu
+INFO 2025-05-30 19:43:38,605 views 18004 19144 Tentative de connexion par l'utilisateur awa
+INFO 2025-05-30 19:43:39,909 views 18004 19144 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-30 19:43:45,483 views 18004 19144 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-30 19:43:48,249 views 18004 19144 Consultation des patients par l'utilisateur awa
+INFO 2025-05-30 19:43:50,935 views 18004 19144 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-30 19:43:52,870 views 18004 19144 Consultation des services par l'utilisateur awa
+WARNING 2025-05-30 19:43:52,918 log 18004 19144 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-30 19:43:54,717 views 18004 19144 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-30 19:43:56,332 views 18004 19144 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-30 19:44:04,152 views 18004 19144 Export des rendez-vous au format PDF par l'utilisateur awa
+INFO 2025-05-30 19:44:22,949 views 18004 19144 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-30 19:44:26,132 views 18004 19144 Consultation des rendez-vous par l'utilisateur awa
+WARNING 2025-05-30 19:44:31,538 log 18004 19144 Not Found: /view-logs/static/blog/img/infirmier.jpg
+INFO 2025-05-30 19:48:29,656 autoreload 21008 15268 Watching for file changes with StatReloader
+INFO 2025-05-30 19:48:37,050 views 21008 9300 Tentative de connexion par l'utilisateur inconnu
+INFO 2025-05-30 19:48:40,801 views 21008 9300 Tentative de connexion par l'utilisateur awa
+INFO 2025-05-30 19:48:42,109 views 21008 9300 Consultation de l'accueil par l'utilisateur awa
+WARNING 2025-05-30 19:49:27,385 log 21008 9300 Forbidden (CSRF token from POST incorrect.): /
+WARNING 2025-05-30 19:49:33,792 log 21008 9300 Forbidden (CSRF token from POST incorrect.): /
+INFO 2025-05-30 19:49:41,110 views 21008 9300 Tentative de connexion par l'utilisateur inconnu
+INFO 2025-05-30 19:49:55,846 views 21008 9300 Tentative de connexion par l'utilisateur awa
+INFO 2025-05-30 19:49:57,068 views 21008 9300 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-30 19:50:01,528 views 21008 9300 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-30 19:50:03,846 views 21008 9300 Consultation des patients par l'utilisateur awa
+INFO 2025-05-30 19:50:08,764 views 21008 9300 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-30 19:50:15,190 views 21008 9300 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-30 19:50:18,068 views 21008 9300 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-30 19:50:21,550 views 21008 9300 Export des rendez-vous au format PDF par l'utilisateur awa
+WARNING 2025-05-30 19:50:38,379 log 21008 9300 Not Found: /view-logs/static/blog/img/infirmier.jpg
+INFO 2025-05-30 19:50:55,895 views 21008 9300 Déconnexion de l'utilisateur :inconnu
+INFO 2025-05-30 19:50:55,917 views 21008 9300 Tentative de connexion par l'utilisateur inconnu
+INFO 2025-05-31 18:11:31,518 autoreload 10212 16448 Watching for file changes with StatReloader
+INFO 2025-05-31 18:11:44,396 views 10212 10428 Tentative de connexion par l'utilisateur inconnu
+WARNING 2025-05-31 18:11:45,858 log 10212 10428 Not Found: /favicon.ico
+INFO 2025-05-31 18:14:27,835 autoreload 8696 2952 Watching for file changes with StatReloader
+INFO 2025-05-31 18:15:27,525 views 8696 7060 Tentative de connexion par l'utilisateur inconnu
+WARNING 2025-05-31 18:15:28,522 log 8696 7060 Not Found: /favicon.ico
+INFO 2025-05-31 18:17:29,144 views 8696 7060 Tentative de connexion par l'utilisateur inconnu
+INFO 2025-05-31 18:17:37,825 views 8696 7060 Tentative de connexion par l'utilisateur awa
+INFO 2025-05-31 18:17:39,518 views 8696 600 Tentative de connexion par l'utilisateur awa
+INFO 2025-05-31 18:17:42,392 views 8696 600 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-31 18:18:48,646 views 8696 12872 Tentative de connexion par l'utilisateur inconnu
+INFO 2025-05-31 18:18:52,134 views 8696 12872 Tentative de connexion par l'utilisateur awa
+INFO 2025-05-31 18:18:54,414 views 8696 12872 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-31 18:18:59,770 views 8696 12872 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-31 18:20:05,356 views 8696 12872 Ajout d'un médecin par l'utilisateur awa
+INFO 2025-05-31 18:20:05,649 views 8696 12872 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-31 18:20:11,542 views 8696 12872 Consultation des services par l'utilisateur awa
+WARNING 2025-05-31 18:20:11,742 log 8696 12872 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-31 18:24:17,464 views 8696 12872 Consultation des services par l'utilisateur awa
+INFO 2025-05-31 18:24:17,548 views 8696 12872 Consultation des services par l'utilisateur awa
+WARNING 2025-05-31 18:24:17,630 log 8696 12872 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-31 18:24:41,318 views 8696 14116 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-31 18:26:28,962 views 8696 12872 Consultation des services par l'utilisateur awa
+INFO 2025-05-31 18:26:29,042 views 8696 12872 Consultation des services par l'utilisateur awa
+WARNING 2025-05-31 18:26:29,149 log 8696 12872 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-31 18:26:37,463 views 8696 12872 Consultation des patients par l'utilisateur awa
+INFO 2025-05-31 18:26:50,115 views 8696 12872 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-31 18:27:07,378 views 8696 12872 Ajout d'un bureau par l'utilisateur awa
+INFO 2025-05-31 18:27:07,437 views 8696 12872 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-31 18:27:29,262 views 8696 12872 Ajout d'un bureau par l'utilisateur awa
+INFO 2025-05-31 18:27:29,341 views 8696 12872 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-31 18:27:49,136 views 8696 12872 Ajout d'un bureau par l'utilisateur awa
+INFO 2025-05-31 18:27:49,195 views 8696 12872 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-31 18:27:59,633 views 8696 12872 Consultation des services par l'utilisateur awa
+WARNING 2025-05-31 18:27:59,824 log 8696 12872 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-31 18:28:01,804 views 8696 12872 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-31 18:28:09,377 views 8696 14116 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-31 18:28:52,058 views 8696 12872 Ajout d'un infirmier par l'utilisateur awa
+INFO 2025-05-31 18:28:52,155 views 8696 12872 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-31 18:29:00,022 views 8696 12872 Consultation des patients par l'utilisateur awa
+INFO 2025-05-31 18:31:04,527 views 8696 18592 Ajout d'un patient par l'utilisateur awa
+INFO 2025-05-31 18:31:04,625 views 8696 18592 Consultation des patients par l'utilisateur awa
+INFO 2025-05-31 18:32:24,949 views 8696 18592 Ajout d'un patient par l'utilisateur awa
+INFO 2025-05-31 18:32:25,025 views 8696 18592 Consultation des patients par l'utilisateur awa
+INFO 2025-05-31 18:32:37,054 views 8696 18592 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-31 18:32:42,268 views 8696 18592 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-31 18:32:46,193 views 8696 18592 Consultation du profile par l'utilisateur awa
+INFO 2025-05-31 18:33:18,348 views 8696 18592 Consultation du profile par l'utilisateur awa
+INFO 2025-05-31 18:33:21,197 views 8696 18592 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-31 18:33:38,118 views 8696 18592 Ajout d'un rendez-vous par l'utilisateur awa
+INFO 2025-05-31 18:33:38,186 views 8696 18592 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-31 18:33:47,285 views 8696 18592 Export des rendez-vous au format CSV par l'utilisateur awa
+INFO 2025-05-31 18:34:31,254 views 8696 18592 Export des rendez-vous au format PDF par l'utilisateur awa
+INFO 2025-05-31 18:34:59,933 views 8696 18592 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-31 18:35:03,072 views 8696 18592 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-31 18:35:06,332 views 8696 18592 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-31 18:35:09,560 views 8696 18592 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-31 18:35:11,379 views 8696 18592 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-31 18:35:14,956 views 8696 18592 Déconnexion de l'utilisateur :inconnu
+INFO 2025-05-31 18:35:15,020 views 8696 18592 Tentative de connexion par l'utilisateur inconnu
+INFO 2025-05-31 18:35:20,431 views 8696 18592 Tentative de connexion par l'utilisateur awa
+INFO 2025-05-31 18:35:22,713 views 8696 18592 Consultation de l'accueil par l'utilisateur awa
+WARNING 2025-05-31 18:35:27,414 log 8696 18592 Not Found: /view-logs/static/blog/img/infirmier.jpg
+WARNING 2025-05-31 18:35:56,324 log 8696 18592 Not Found: /view-logs/static/blog/img/infirmier.jpg
+INFO 2025-05-31 22:52:05,064 views 8696 6228 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-31 22:52:31,409 views 8696 6228 Ajout d'un bureau par l'utilisateur awa
+INFO 2025-05-31 22:52:31,488 views 8696 6228 Consultation des bureaux par l'utilisateur awa
+INFO 2025-05-31 22:52:43,557 views 8696 6228 Consultation des patients par l'utilisateur awa
+INFO 2025-05-31 22:53:30,771 views 8696 6228 Ajout d'un patient par l'utilisateur awa
+INFO 2025-05-31 22:53:30,862 views 8696 6228 Consultation des patients par l'utilisateur awa
+INFO 2025-05-31 22:53:37,984 views 8696 6228 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-31 22:54:54,181 views 8696 6228 Ajout d'un médecin par l'utilisateur awa
+INFO 2025-05-31 22:54:54,295 views 8696 6228 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-31 22:56:14,402 views 8696 6228 Ajout d'un médecin par l'utilisateur awa
+INFO 2025-05-31 22:56:14,554 views 8696 6228 Consultation des médecins par l'utilisateur awa
+INFO 2025-05-31 22:56:20,163 views 8696 6228 Consultation des patients par l'utilisateur awa
+INFO 2025-05-31 22:56:23,089 views 8696 6228 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-31 22:56:29,035 views 8696 6228 Consultation des patients par l'utilisateur awa
+INFO 2025-05-31 22:56:39,011 views 8696 6228 Consultation des services par l'utilisateur awa
+WARNING 2025-05-31 22:56:39,195 log 8696 6228 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-31 22:57:44,602 views 8696 6228 Consultation des services par l'utilisateur awa
+INFO 2025-05-31 22:57:44,675 views 8696 6228 Consultation des services par l'utilisateur awa
+WARNING 2025-05-31 22:57:44,808 log 8696 6228 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-31 22:59:23,602 views 8696 20216 Consultation des services par l'utilisateur awa
+INFO 2025-05-31 22:59:23,683 views 8696 20216 Consultation des services par l'utilisateur awa
+WARNING 2025-05-31 22:59:23,793 log 8696 20216 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-31 22:59:28,698 views 8696 20216 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-31 23:00:24,561 views 8696 20216 Ajout d'un infirmier par l'utilisateur awa
+INFO 2025-05-31 23:00:24,645 views 8696 20216 Consultation des infirmiers par l'utilisateur awa
+INFO 2025-05-31 23:00:30,613 views 8696 20216 Consultation des patients par l'utilisateur awa
+INFO 2025-05-31 23:00:34,967 views 8696 20216 Consultation des services par l'utilisateur awa
+WARNING 2025-05-31 23:00:35,124 log 8696 20216 Not Found: /admin_Service/assets/js/main.js
+INFO 2025-05-31 23:00:47,398 views 8696 20216 Consultation des rendez-vous par l'utilisateur awa
+INFO 2025-05-31 23:00:54,273 views 8696 20216 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-05-31 23:01:00,066 views 8696 20216 Consultation des patients par l'utilisateur awa
+INFO 2025-05-31 23:02:29,972 views 8696 20216 Ajout d'un patient par l'utilisateur awa
+INFO 2025-05-31 23:02:30,089 views 8696 20216 Consultation des patients par l'utilisateur awa
+INFO 2025-05-31 23:07:43,376 views 8696 10992 Ajout d'un patient par l'utilisateur awa
+INFO 2025-05-31 23:07:43,478 views 8696 10992 Consultation des patients par l'utilisateur awa
+INFO 2025-05-31 23:07:51,671 views 8696 10992 Consultation de l'accueil par l'utilisateur awa
+INFO 2025-06-01 00:53:04,830 views 8696 6280 Tentative de connexion par l'utilisateur inconnu

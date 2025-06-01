@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>accueil</title>
+  <title>infirmier</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -19,7 +19,7 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -29,11 +29,6 @@
    <link href="{% static 'blog/vendor/bootstrap/css/bootstrap-grid.min.css' %}" rel="stylesheet">
 
    <link href="{% static 'blog/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
-   <link href="{% static 'blog/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
-   <link href="{% static 'blog/vendor/quill/quill.snow.css' %}" rel="stylesheet">
-   <link href="{% static 'blog/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
-   <link href="{% static 'blog/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
-   <link href="{% static 'blog/vendor/simple-datatables/style.css' %}" rel="stylesheet">
    <link href="{% static 'blog/css/style.css' %}" rel="stylesheet">
   <!-- Bootstrap 5 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -133,120 +128,72 @@
 
    
 
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
 
-        <li class="nav-item dropdown">
+ <nav class="header-nav ms-auto">
+  <ul class="d-flex align-items-center">
 
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-primary badge-number">4</span>
-          </a><!-- End Notification Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-           
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-check-circle text-success"></i>
-              <div>
-                <h4>Authentification réussi</h4>
-                <p>2 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-           
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li class="dropdown-footer">
-              <a href="#">Voir toutes les notifications</a>
-            </li>
-
-          </ul><!-- End Notification Dropdown Items -->
-
-        </li><!-- End Notification Nav -->
-
-        <li class="nav-item dropdown">
-
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-chat-left-text"></i>
-            <span class="badge bg-success badge-number">3</span>
-          </a><!-- End Messages Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-            <li class="dropdown-header">
-              Vous avez 3 nouveaux messages
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tous</span></a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <img src="{% static 'blog/img/doc1.jpg' %}" alt="" class="rounded-circle">
-                <div>
-                  <h4>Dr Cissé</h4>
-                     <p>4 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <img src="img/doc2.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>Dr Birane Sambe</h4>       <p>6 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <img src="img/doc3.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>Dr Diop</h4>
-                          <p>8 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="dropdown-footer">
-              <a href="#">Vous tous les Messages</a>
-            </li>
-
-          </ul><!-- End Messages Dropdown Items -->
-
-        </li><!-- End Messages Nav -->
-
-        <li class="nav-item dropdown pe-3">
-
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="{% static 'blog/img/doc1.jpg' %}" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Admin</span>
-          </a><!-- End Profile Iamge Icon -->
-
-         
+    <!-- Bouton Logs (Admin seulement) -->
+    {% if user.is_staff %}
+    <li class="nav-item dropdown">
+      <a class="nav-link nav-icon" href="{% url 'view_logs' %}" data-bs-toggle="dropdown">
+        <i class="bi bi-terminal-fill"></i>  <!-- Icône terminal plus appropriée -->
+        <span class="badge bg-warning badge-number">!</span>  <!-- Badge d'alerte -->
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+        <li class="dropdown-header">
+          <span>Journaux système</span>
+        </li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li>
+          <a class="dropdown-item d-flex align-items-center" href="{% url 'view_logs' %}">
+            <i class="bi bi-file-earmark-text me-2 text-warning"></i>
+            <span>Voir les logs complets</span>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item d-flex align-items-center" href="#">
+            <i class="bi bi-exclamation-triangle me-2 text-danger"></i>
+            <span>Erreurs récentes (3)</span>
+          </a>
+        </li>
       </ul>
-    </nav><!-- End Icons Navigation -->
+    </li>
+    {% endif %}
 
+    <!-- Notification -->
+    <li class="nav-item dropdown">
+      <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+        <i class="bi bi-bell"></i>
+        <span class="badge bg-primary badge-number">4</span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+        <!-- Contenu existant... -->
+      </ul>
+    </li>
+
+    <!-- Messages -->
+    <li class="nav-item dropdown">
+      <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+        <i class="bi bi-chat-left-text"></i>
+        <span class="badge bg-success badge-number">39</span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+        <!-- Contenu existant... -->
+      </ul>
+    </li>
+
+    <!-- Profil -->
+    <li class="nav-item dropdown pe-3">
+      <a class="nav-link nav-profile d-flex align-items-center pe-0" href="{% url 'admin-profile' %}">
+        <img src="{% static 'blog/img/doc1.jpg' %}" alt="Profile" class="rounded-circle" width="32">
+        <span class="d-none d-md-block dropdown-toggle ps-2">{{ request.user.username }}</span>
+      </a>
+    </li>
+
+  </ul>
+</nav>
   </header><!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
@@ -256,8 +203,8 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="{ % url 'accueil' %}">
-          <i class="bi bi-grid"></i>
+        <a class="nav-link " href="#">
+          <i class="bi bi-grid text-dark"></i>
           <span>Tableau de Bord</span>
         </a>
       </li><!-- End Dashboard Nav -->
@@ -265,13 +212,13 @@
      
       <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'admin_Medecin' %}">
-          <i class="bi bi-heart-pulse fs-3"></i>
+          <i class="bi bi-heart-pulse fs-3 text-dark"></i>
           <span>Gestion des Médecin</span>
         </a>
       </li>
       <li class="nav-item">
   <a class="nav-link collapsed" href="{% url 'admin_Patient' %}">
-    <i class="bi bi-person-vcard fs-3"></i>
+    <i class="bi bi-person-vcard fs-3 text-dark"></i>
     <span>Gestion des Patients</span>
   </a>
 </li>
@@ -279,29 +226,43 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'admin_Infirmier' %}">
-          <i class="bi-person-lines-fill fs-3"></i>
+          <i class="bi-person-lines-fill fs-3 text-dark"></i>
           <span>Gestion des Infirmiers</span>
         </a>
       </li><!-- End Contact Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'admin_Service' %}">
-          <i class="bi bi-clipboard-heart fs-3"></i>
+          <i class="bi bi-clipboard-heart fs-3 text-dark"></i>
           <span>Gestion des Services</span>
         </a>
       </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'admin_Bureau' %}">
-          <i class="bi bi-door-closed fs-3"></i>
+          <i class="bi bi-door-closed fs-3 text-dark"></i>
           <span>Gestion des Bureaux</span>
         </a>
       </li>
       <li class="nav-item">
   <a class="nav-link collapsed" href="{% url 'admin_RendezVous' %}">
-    <i class="bi bi-calendar-check fs-3"></i>
+    <i class="bi bi-calendar-check fs-3 text-dark"></i>
     <span>Gestion des Rendez-vous</span>
   </a>
+  
+   <div class="d-flex align-items-center">
+      {% if user.is_authenticated %}
+      
+        <a href="{% url 'logout' %}" class="btn btn-outline-danger px-3 rounded-pill">
+          <i class="fas fa-sign-out-alt me-2"></i> Déconnexion
+        </a>
+      {% else %}
+        <a href="{% url 'login' %}" class="btn btn-outline-primary px-3 rounded-pill">
+          <i class="fas fa-sign-in-alt me-2"></i> Connexion
+        </a>
+      {% endif %}
+    </div>
+  
 </li>
 
      
@@ -321,92 +282,115 @@
 			<div class="table-title">
 				<div class="row">
 					<div class="col-sm-6">
-						<h3><i class="bi bi-clipboard-heart fs-3"></i><i class="bi bi-clipboard-heart fs-3"></i>
-                        </i> Gestion des Infirmiers</h3>
-					</div><br><br><br>
-            <div class="d-flex justify-content-end mb-3">
- 
-       
-<!-- Formulaire de recherche -->
-<form method="GET" action="" class="row g-3 mb-4">
-  <!-- Champ recherche nom/prénom -->
-  <div class="col-md-3">
-    <input type="text" name="recherche" class="form-control" 
-           placeholder="Nom ou prénom" value="{{ recherche }}">
-  </div>
-  
-  <!-- Filtre par grade -->
-  <div class="col-md-3">
-    <select name="grade" class="form-select">
-      <option value="">Tous grades</option>
-      {% for grade in grades %}
-        <option value="{{ grade }}" {% if grade == selected_grade %}selected{% endif %}>
-          {{ grade }}
-        </option>
-      {% endfor %}
-    </select>
-  </div>
-  
-  <!-- Filtre par service -->
-  <div class="col-md-3">
-    <select name="service" class="form-select">
-      <option value="">Tous services</option>
-      {% for service in services %}
-        <option value="{{ service.id }}" {% if service.id|stringformat:"s" == selected_service %}selected{% endif %}>
-          {{ service.nom_service }}
-        </option>
-      {% endfor %}
-    </select>
-  </div>
-  
-  <!-- Boutons -->
-  <div class="col-md-3">
-    <button type="submit" class="btn btn-primary me-2">
-      <i class="fas fa-search"></i> Filtrer
+						<h3> <i class="bi-person-lines-fill fs-3 text-dark"></i>
+               <i class="bi-person-lines-fill fs-3 text-dark"></i> 
+              Gestion des Infirmiers
+              </h3>
+					    </div><br><br><br>
+          
+<div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-light rounded shadow-sm" 
+style="border: 1px solid #ced4da;">
+
+  <!-- Formulaire de recherche avec boutons alignés -->
+  <form method="GET" action="" class="d-flex flex-grow-1 me-3 align-items-center">
+    <!-- Champ recherche -->
+    <div class="input-group input-group-sm me-2" style="width: 200px;">
+      <span class="input-group-text bg-white border-end-0">
+        <i class="fas fa-user text-muted"></i>
+      </span>
+      <input type="text" name="recherche" class="form-control border-start-0" 
+             placeholder="Nom/prénom" value="{{ recherche }}"
+             style="border-color: #067bf0;">
+    </div>
+
+    <!-- Filtre grade -->
+    <div class="input-group input-group-sm me-2" style="width: 200px;">
+      <span class="input-group-text bg-white border-end-0">
+        <i class="fas fa-user-tie text-muted"></i>
+      </span>
+      <select name="grade" class="form-select border-start-0" style="border-color: #0a74de;">
+        <option value="">Tous grades</option>
+        {% for grade in grades %}
+          <option value="{{ grade }}" {% if grade == selected_grade %}selected{% endif %}>{{ grade }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Filtre service -->
+    <div class="input-group input-group-sm me-2" style="width: 200px;">
+      <span class="input-group-text bg-white border-end-0">
+        <i class="fas fa-hospital text-muted"></i>
+      </span>
+      <select name="service" class="form-select border-start-0" style="border-color: #0674e2;">
+        <option value="">Tous services</option>
+        {% for service in services %}
+          <option value="{{ service.id }}" {% if service.id|stringformat:"s" == selected_service %}selected{% endif %}>{{ service.nom_service }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Boutons Filtrer/Réinitialiser - Mêmes dimensions que l'export -->
+    <div class="d-flex">
+      <button type="submit" class="btn btn-primary btn-sm px-3 me-2 d-flex align-items-center" 
+              style="height: 31px;">
+        <i class="fas fa-search me-1"></i> Filtrer
+      </button>
+      <a href="?" class="btn btn-success btn-sm px-3 d-flex align-items-center" 
+         style="height: 31px; border-color: #198754; background-color: #198754;">
+        <i class="fas fa-undo me-1"></i> Réinit
+      </a>
+    </div>
+  </form>
+
+  <!-- Bouton d'export (référence de dimension) -->
+  <div class="btn-group" style="flex-shrink: 0;">
+    <button class="btn btn-success btn-sm px-3 d-flex align-items-center" 
+            data-bs-toggle="dropdown" style="height: 31px; border-color: #198754;">
+      <i class="fas fa-download me-1"></i>
+      <span>Export</span>
     </button>
-    <a href="?" class="btn btn-outline-secondary">
-      <i class="fas fa-undo"></i>
-    </a>
-  </div>
-</form>
-
-
-   
-  <!-- Export -->
-  <div class="btn-group ms-2">
-    <button class="btn btn-success btn-sm dropdown-toggle py-1 px-2" data-bs-toggle="dropdown" 
-          aria-expanded="false" title="Exporter les données">
-    <i class="fas fa-download fa-sm"></i> Export
-  </button>
-     <ul class="dropdown-menu dropdown-menu-end">
-    <li><a class="dropdown-item" href="{% url 'export_infirmiers_csv' %}">
-      <i class="fas fa-file-csv text-success me-2"></i>Export CSV</a></li>
-    <li><a class="dropdown-item" href="{% url 'export_infirmiers_excel' %}">
-       📊  Export Excel</a></li>
-    <li><a class="dropdown-item" href="{% url 'export_infirmiers_pdf' %}">
-                  <i class="fas fa-file-pdf text-danger me-2"></i>Export PDF</a></li>
-  </ul>
+    <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="border: 1px solid rgba(0,0,0,.1);">
+      <li>
+        <a class="dropdown-item py-2 d-flex align-items-center" href="{% url 'export_infirmiers_csv' %}">
+          <i class="fas fa-file-csv text-success me-2" style="width: 20px;"></i>
+          <span>CSV</span>
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item py-2 d-flex align-items-center" href="{% url 'export_infirmiers_excel' %}">
+          <i class="fas fa-file-excel text-primary me-2" style="width: 20px;"></i>
+          <span>Excel</span>
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item py-2 d-flex align-items-center" href="{% url 'export_infirmiers_pdf' %}">
+          <i class="fas fa-file-pdf text-danger me-2" style="width: 20px;"></i>
+          <span>PDF</span>
+        </a>
+      </li>
+    </ul>
   </div>
 </div>
-
      <!-- Bouton pour ouvrir le modal d'ajout -->
-    <div class="mb-3">
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInfirmierModal">
-        <i class="fas fa-plus-circle"></i> Ajouter un Infirmier
-      </button>
-    </div>
+<div class="mb-3 d-inline-block">  <!-- Conteneur en ligne -->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" 
+          data-bs-toggle="modal" data-bs-target="#addInfirmierModal">
+    <i class="fas fa-user-nurse me-2"></i>
+    Ajouter un Infirmier
+  </button>
+</div>
       
     <!-- Tableau des infirmiers -->
     <div class="table-responsive" style="max-width: 100%;">
     <table class="table tabindex table-hover table-sm">
       <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Prénom</th>
-          <th>Grade</th>
-          <th>Téléphone</th>
-          <th>Service</th>
-          <th>Actions</th>
+            <tr>
+              <th>Nom <i class="fas fa-id-card-alt"></i></th>
+              <th>Prénom <i class="fas fa-user"></i></th>
+              <th>Grade <i class="fas fa-award"></i></th>
+              <th>Téléphone <i class="fas fa-phone-alt"></i></th>
+              <th>Service <i class="fas fa-briefcase"></i></th>
+              <th>Actions <i class="fas fa-ellipsis-h"></i></th>
         </tr>
       </thead>
       <tbody>
@@ -419,13 +403,14 @@
           <td>{{ infirmier.service.nom_service }}</td>
 
           <td>
-            <!-- Modifier -->
-            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modifierInfirmierModal{{ infirmier.id }}">
-              <i class="fas fa-edit fa-em ; style=font-size: 12px ;"></i>
+                      
+                <button class="btn btn-outline-danger btn-sm btnDeletePatient"
+                data-bs-toggle="modal" data-bs-target="#supprimerInfirmierModal{{ infirmier.id }}">
+              <i class="fas fa-trash-alt"></i>
             </button>
-            <!-- Supprimer -->
-            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#supprimerInfirmierModal{{ infirmier.id }}">
-             <i class="fas fa-trash" style="font-size: 12px; color: rgb(248, 248, 248);"></i>
+            <button class="btn btn-outline-success btn-sm btnEditPatient" 
+            data-bs-toggle="modal" data-bs-target="#modifierInfirmierModal{{ infirmier.id }}">
+              <i class="fas fa-edit"></i>
             </button>
           </td>
         </tr>

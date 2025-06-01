@@ -1,6 +1,30 @@
 from django import forms  # Import de l'API de formulaires de Django
 from .models import Service, Bureau, Medecin, Infirmier, Patient, RendezVous  # Import des modèles utilisés
 
+
+
+
+
+from django.contrib.auth.models import User
+from django import forms
+
+class AdminProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'username']
+        labels = {
+            'first_name': 'Prénom',
+            'last_name': 'Nom',
+            'email': 'Adresse Email',
+            'username': 'Nom d’utilisateur',
+        }
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
 # ========================
 #  Formulaire de Connexion
 # ========================

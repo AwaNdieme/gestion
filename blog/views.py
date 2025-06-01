@@ -9,20 +9,86 @@ from .models import Patient,Infirmier,RendezVous,Medecin,Bureau,Service
 import csv
 import openpyxl
 from django.contrib import messages
+import logging
+from django.conf import settings
 
 
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 
 
-from .forms import ServiceForm
+from django.shortcuts import render
+from .models import Patient, Medecin, Infirmier, Service
 
 
+## fICHIER LOG 
+
+from django.conf import settings
+import os
+
+def view_logs(request):
+    """Vue pour afficher le contenu du fichier de logs"""
+    # Chemin vers votre fichier de logs (ajustez selon votre configuration)
+    log_file_path = os.path.join(settings.BASE_DIR, 'logs/app.log')
+    
+    try:
+        with open(log_file_path, 'r') as f:
+            log_content = f.read()
+        
+        # Si le fichier est trop grand, on ne prend que les 1000 dernières lignes
+        log_lines = log_content.split('\n')
+        if len(log_lines) > 1000:
+            log_content = '\n'.join(log_lines[-1000:])
+            message = "Affichage des 1000 dernières lignes :\n\n"
+        else:
+            message = "Contenu complet du fichier de logs :\n\n"
+            
+        return HttpResponse(f"<pre>{message}{log_content}</pre>")
+    
+    except FileNotFoundError:
+        return HttpResponse("Fichier de logs non trouvé", status=404)
+    except Exception as e:
+        return HttpResponse(f"Erreur lors de la lecture du fichier : {str(e)}", status=500)
+
+logger = logging.getLogger(__name__)
+
+
+
+
+
+
+
+def admin_Dashboard(request):
+    logger.info(f"Consultation du Dashboard par l'utilisateur {request.user.username}")
+    context = {
+        'total_patients': Patient.objects.count() or 0,
+        'total_medecins': Medecin.objects.count() or 0,
+        'total_infirmiers': Infirmier.objects.count() or 0,
+        'total_services': Service.objects.count() or 0,
+    }
+    return render(request, 'blog/admin_dashboard.html', context)
+
+##########################
+from .forms import AdminProfileForm
+
+@login_required
 def admin_profile(request):
-    return render(request, 'blog/admin_profile.html')
+    logger.info(f"Consultation du profile par l'utilisateur {request.user.username}")
+    user = request.user
+    if request.method == 'POST':
+        form = AdminProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profil mis à jour avec succès.")
+            return redirect('admin-profile')
+    else:
+        form = AdminProfileForm(instance=user)
+
+    return render(request, 'blog/admin-profile.html', {'form': form})
 
 
 def login_page(request):
+    logger.info(f"Tentative de connexion par l'utilisateur {request.POST.get('username', 'inconnu')}")
     form = forms.LoginForm()
     message = ''
     
@@ -44,10 +110,28 @@ def login_page(request):
 
 @login_required
 def accueil(request):
-    """Vue pour la page d'accueil après connexion"""
-    return render(request, 'blog/accueil.html')
+    logger.info(f"Consultation de l'accueil par l'utilisateur {request.user.username}")
+    services = Service.objects.all()
+    patients = Patient.objects.all()
+    medecins = Medecin.objects.all()
+    infirmiers = Infirmier.objects.all()
+
+    context = {
+        'services': services,
+        'patients': patients,
+        'medecins': medecins,
+        'infirmiers': infirmiers,
+
+         #  Ajout des compteurs numériques pour lincrementation
+        'nb_services': services.count(),
+        'nb_patients': patients.count(),
+        'nb_medecins': medecins.count(),
+        'nb_infirmiers': infirmiers.count(),
+    }
+    return render(request, 'blog/accueil.html', context)
 
 def logout_view(request):
+    logger.info(f"Déconnexion de l'utilisateur :inconnu")
     """Vue pour la déconnexion"""
     logout(request)
     return redirect('login')
@@ -57,8 +141,11 @@ from .models import Service
 from .forms import ServiceForm
 
 # Vue principale de gestion des services
+from django.shortcuts import render, redirect
+from django.contrib import messages
 
 def admin_Service(request):
+    logger.info(f"Consultation des services par l'utilisateur {request.user.username}")
     services = Service.objects.all()
     recherche = request.GET.get('recherche', '')
     selected_service = request.GET.get('service', '')
@@ -71,41 +158,62 @@ def admin_Service(request):
     if selected_service:
         services = services.filter(id=selected_service)
 
-    # Formulaire vide pour le modal d’ajout
-    form = ServiceForm()
+    # Gestion de l'ajout de service
+    if request.method == 'POST':
+        form = ServiceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Service ajouté avec succès!")
+            return redirect('admin_Service')  # Redirige pour éviter les re-soumissions
+    else:
+        form = ServiceForm()  # Formulaire vide pour GET
 
     context = {
         'services': services,
         'selected_service': selected_service,
         'recherche': recherche,
-        'form': form,  # Passer le formulaire au template
+        'form': form,
     }
     return render(request, 'blog/admin_Service.html', context)
 
 # Ajouter un service (avec ServiceForm)
 
 def ajouter_service(request):
+    logger.info(f"Ajout d'un service par l'utilisateur {request.user.username}")
     if request.method == 'POST':
         form = ServiceForm(request.POST)
         if form.is_valid():
             form.save()  # Enregistrement automatique dans la BD
             return redirect('admin_Service')
     return redirect('admin_Service')
-
-#Modifier un service existant (form pré-rempli)
 def modifier_service(request, pk):
+    logger.info(f"Modification du service {pk} par l'utilisateur {request.user.username}")
     service = get_object_or_404(Service, pk=pk)  # Récupère le service à modifier
-
+    
     if request.method == 'POST':
         form = ServiceForm(request.POST, instance=service)  # Lié au service existant
         if form.is_valid():
             form.save()  # Mise à jour
+            messages.success(request, 'Service modifié avec succès!')
             return redirect('admin_Service')
-    return redirect('admin_Service')
+        else:
+            # Si le formulaire n'est pas valide, on l'affiche avec les erreurs
+            messages.error(request, 'Erreur lors de la modification. Vérifiez les champs.')
+    else:
+        # GET: Affichage du formulaire pré-rempli
+        form = ServiceForm(instance=service)
+    
+    # Rendu du template avec le formulaire (pré-rempli ou avec erreurs)
+    return render(request, 'votre_template.html', {
+        'form': form,
+        'service': service,
+        'action': 'Modifier'
+    })
 
 #  Supprimer un service
 # ===============================
 def supprimer_service(request, pk):
+    logger.info(f"Suppression du service {pk} par l'utilisateur {request.user.username}")
     service = get_object_or_404(Service, pk=pk)
     if request.method == 'POST':
         service.delete()
@@ -113,24 +221,60 @@ def supprimer_service(request, pk):
 
 
 
-# Exporter les services au format CSV
+import csv
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+import logging
+
+logger = logging.getLogger(__name__)
+
+@login_required
 def export_services_csv(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="services.csv"'
+    """Exporter les services au format CSV"""
+    try:
+        logger.info(f"Export des services au format CSV par l'utilisateur {request.user.username}")
+        
+        # Créer la réponse HTTP avec le bon type de contenu
+        response = HttpResponse(content_type='text/csv; charset=utf-8')
+        response['Content-Disposition'] = 'attachment; filename="services.csv"'
+        
+        # Ajouter le BOM UTF-8 pour Excel
+        response.write('\ufeff')
+        
+        # Créer le writer CSV
+        writer = csv.writer(response, delimiter=';', quoting=csv.QUOTE_ALL)
+        
+        # Écrire l'en-tête
+        writer.writerow(['ID', 'Nom du Service', 'Description'])
+        
+        # Écrire les données des services
+        services = Service.objects.all().order_by('id')
+        for service in services:
+            writer.writerow([
+                service.id,
+                service.nom_service or '',  # Gérer les valeurs nulles
+                service.description or ''   # Gérer les valeurs nulles
+            ])
+        
+        logger.info(f"Export CSV réussi - {services.count()} services exportés")
+        return response
+        
+    except Exception as e:
+        logger.error(f"Erreur lors de l'export CSV: {str(e)}")
+        # Retourner une réponse d'erreur appropriée
+        return HttpResponse(
+            "Erreur lors de l'export des services", 
+            status=500,
+            content_type='text/plain'
+        )
 
-    writer = csv.writer(response)
-    writer.writerow(['ID', 'Nom du Service', 'Description'])
-
-    for s in Service.objects.all():
-        writer.writerow([s.id, s.nom_service, s.description])
-
-    return response
 
 # ===============================
 from django.http import HttpResponse
 from openpyxl.styles import Font, Alignment
 
 def export_services_excel(request):
+    logger.info(f"Export des services au format Excel par l'utilisateur {request.user.username}")
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = "Services"
@@ -151,131 +295,183 @@ def export_services_excel(request):
     return response
 
 # ===============================
-from reportlab.lib.pagesizes import letter
+from io import BytesIO
+from datetime import datetime
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import inch
-from datetime import datetime
-from django.http import HttpResponse
+from reportlab.lib.units import cm
 from .models import Service
 
 def export_services_pdf(request):
-    # Configuration du document
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="services_hopital.pdf"'
-    
-    doc = SimpleDocTemplate(response, pagesize=letter,
-                          rightMargin=40, leftMargin=40,
-                          topMargin=60, bottomMargin=60)
-    elements = []
-    styles = getSampleStyleSheet()
-    
-    # Style personnalisé
-    title_style = ParagraphStyle(
-        'title_style',
-        parent=styles['Heading1'],
-        textColor=colors.HexColor('#005b96'),  # Bleu hospitalier
-        fontSize=18,
-        leading=22,
-        alignment=1,
-        spaceAfter=20
-    )
-    
-    # En-tête avec logo (optionnel)
+    logger.info(f"Export des services au format PDF par l'utilisateur {request.user.username}")
     try:
-        logo = Image("static/blog/img/me.jpg", width=1.5*inch, height=1*inch)
-        logo.hAlign = 'LEFT'  # Alignement à gauche
-        elements.append(logo)
-    except:
-        pass  # Continue sans logo si non trouvé
-    
-    elements.extend([
-        Paragraph("HÔPITAL GÉNÉRAL DE L'UIT", title_style),
-        Paragraph("LISTE DES SERVICES MÉDICAUX", styles['Heading2']),
-        Paragraph(f"Généré le {datetime.now().strftime('%d/%m/%Y à %H:%M')}", styles['Normal']),
-        Spacer(1, 24)
-    ])
+        # Configuration du document PDF
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="liste_services_{datetime.now().strftime("%Y%m%d")}.pdf"'
 
-    # Données des services (uniquement les champs du modèle)
-    data = [
-        ['ID', 'Nom du Service', 'Description']  # En-têtes correspondant exactement aux champs
-    ]
-    
-    services = Service.objects.all().order_by('nom_service')
-    
-    for service in services:
-        data.append([
-            service.id,
-            service.nom_service,  # Champ direct sans modification
-            service.description   # Champ direct sans modification
-        ])
+        buffer = BytesIO()
+        doc = SimpleDocTemplate(
+            buffer, pagesize=A4,
+            rightMargin=40, leftMargin=40,
+            topMargin=60, bottomMargin=40
+        )
 
-    # Style du tableau
-    table = Table(data, colWidths=[40, 200, 300], repeatRows=1)
-    table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#17a2b8')),  # Bleu turquoise
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('ALIGN', (0, 0), (0, -1), 'CENTER'),  # Centrer uniquement la colonne ID
-        ('ALIGN', (1, 0), (-1, -1), 'LEFT'),
-        ('FONTSIZE', (0, 0), (-1, -1), 10),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor('#f8f9fa')),  # Fond gris très clair
-        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#dee2e6')),
-        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-    ]))
+        elements = []
+        styles = getSampleStyleSheet()
 
-    elements.append(table)
-    elements.append(Spacer(1, 24))
-    
-    # Pied de page
-    footer_style = ParagraphStyle(
-        'footer_style',
-        parent=styles['Italic'],
-        textColor=colors.HexColor('#6c757d'),
-        fontSize=8,
-        alignment=1
-    )
-    
-    elements.append(Paragraph(
-        f"Total services: {services.count()} • © {datetime.now().year} Hôpital Général de l'UIT",
-        footer_style
-    ))
+        # Styles pour l'en-tête
+        header_style = ParagraphStyle(
+            'header_style',
+            parent=styles['Normal'],
+            fontSize=16,
+            textColor=colors.black,
+            alignment=1,  # 1 = centre
+            spaceAfter=10,
+            leading=15
+        )
+        
+        subheader_style = ParagraphStyle(
+            'subheader_style',
+            parent=styles['Normal'],
+            fontSize=12,
+            textColor=colors.black,
+            alignment=1,
+            spaceBefore=5,
+            spaceAfter=10
+        )
 
-    # Génération du PDF
-    doc.build(elements)
-    return response
+        # En-tête avec logos et texte
+        header_data = [
+            [Image('static/blog/img/uit.jpg', width=2*cm, height=2*cm), 
+             [Paragraph("<b>HÔPITAL UNIVERSITAIRE DE L'UIT</b>", header_style),
+              Paragraph("Centre Hospitalo-Universitaire de Référence", subheader_style)],
+             Image('static/blog/img/dr.jpg', width=2*cm, height=2*cm)]
+        ]
+        
+        header_table = Table(header_data, colWidths=[4*cm, 10*cm, 4*cm])
+        header_table.setStyle(TableStyle([
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ]))
+        elements.append(header_table)
+
+        # Informations de l'hôpital
+        elements.append(Paragraph("ANNEE 2024-2025", styles['Heading2']))
+        elements.append(Spacer(1, 12))
+
+        hospital_info = [
+            Paragraph("123 Avenue de la Santé", styles['Normal']),
+            Paragraph("Ville: Thies", styles['Normal']),
+            Paragraph("Tél: +221 33 945 67 89", styles['Normal']),
+            Paragraph("Email: contact@hopital-uit.sn", styles['Normal']),
+            Spacer(1, 24),
+            Paragraph("<b>LISTE DES SERVICES MÉDICAUX</b>", styles['Title']),
+            Paragraph(f"Généré le: {datetime.now().strftime('%d/%m/%Y %H:%M')}", styles['Normal']),
+            Spacer(1, 24)
+        ]
+        elements.extend(hospital_info)
+
+        # Tableau des services
+        data = [['ID', 'Nom du Service', 'Description']]
+        services = Service.objects.all().order_by('nom_service')
+        
+        for service in services:
+            data.append([
+                service.id,
+                service.nom_service,
+                service.description or "Aucune description disponible"  # Gestion des descriptions vides
+            ])
+
+        # Création du tableau avec largeurs de colonnes proportionnelles
+        table = Table(data, colWidths=[2*cm, 5*cm, 9*cm], repeatRows=1)
+        
+        # Style du tableau - adapté mais cohérent avec la charte
+        table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1E5F8C')),  # Bleu hospitalier
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('ALIGN', (0, 0), (0, -1), 'CENTER'),  # Centrer uniquement la colonne ID
+            ('ALIGN', (1, 0), (-1, -1), 'LEFT'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, -1), 10),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor('#F0F8FF')),  # Fond bleu clair
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.lightgrey),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ]))
+
+        elements.append(table)
+        elements.append(Spacer(1, 24))
+
+        # Pied de page
+        footer_style = ParagraphStyle(
+            'footer_style',
+            fontSize=8,
+            textColor=colors.HexColor('#6c757d'),
+            alignment=1  # Centré
+        )
+        
+        elements.append(Paragraph(
+            f"Total services: {services.count()} • © {datetime.now().year} Hôpital Universitaire de l'UIT",
+            footer_style
+        ))
+
+        # Génération du PDF
+        doc.build(elements)
+        pdf = buffer.getvalue()
+        buffer.close()
+        response.write(pdf)
+        return response
+
+    except Exception as e:
+        return HttpResponse(f"Erreur lors de la génération du PDF: {str(e)}", status=500)
 # ===============================
 # Fin de la gestion des services
 
-#############  BUREAU #############
+#############  BUREAU #############from django.db.models import Q
+
 def admin_Bureau(request):
-    bureaux = Bureau.objects.all()
+    logger.info(f"Consultation des bureaux par l'utilisateur {request.user.username}")
+    bureaux = Bureau.objects.select_related('service').all().order_by('etage', 'numero_bureau')
     services = Service.objects.all()
-
-    # Récupération des filtres depuis l'URL
+    
+    # Récupération des paramètres de filtrage
     recherche = request.GET.get('recherche', '')
-    selected_bureau = request.GET.get('bureau', '')
-
-    # Filtrage par numéro de bureau
+    selected_service = request.GET.get('service', '')
+    etage = request.GET.get('etage', '')
+    
+    # Application des filtres
     if recherche:
-        bureaux = bureaux.filter(numero_bureau__icontains=recherche)
-
-    # Filtrage par ID de bureau
-    if selected_bureau:
-        bureaux = bureaux.filter(id=selected_bureau)
-
+        bureaux = bureaux.filter(
+            Q(numero_bureau__icontains=recherche) |
+            Q(service__nom_service__icontains=recherche)
+        )
+    
+    if selected_service:
+        bureaux = bureaux.filter(service__id=selected_service)
+    
+    if etage:
+        bureaux = bureaux.filter(etage=etage)
+    
+    # Récupération des étages distincts
+    etages = Bureau.objects.values_list('etage', flat=True).distinct().order_by('etage')
+    
     context = {
         'bureaux': bureaux,
         'services': services,
-        'selected_bureau': selected_bureau,
+        'etages': etages,
         'recherche': recherche,
-        'form': BureauForm(),  # Formulaire vide pour ajout
+        'selected_service': selected_service,
+        'selected_etage': etage,
+        'form': BureauForm()
     }
     return render(request, 'blog/admin_Bureau.html', context)
 
+
 def ajouter_bureau(request):
+    logger.info(f"Ajout d'un bureau par l'utilisateur {request.user.username}")
     if request.method == 'POST':
         form = BureauForm(request.POST)
         if form.is_valid():
@@ -286,6 +482,7 @@ def ajouter_bureau(request):
 
 
 def modifier_bureau(request, pk):
+    logger.info(f"Modification du bureau {pk} par l'utilisateur {request.user.username}")
     bureau = get_object_or_404(Bureau, pk=pk)
     if request.method == 'POST':
         form = BureauForm(request.POST, instance=bureau)
@@ -296,6 +493,7 @@ def modifier_bureau(request, pk):
 
 
 def supprimer_bureau(request, pk):
+    logger.info(f"Suppression du bureau {pk} par l'utilisateur {request.user.username}")
     bureau = get_object_or_404(Bureau, pk=pk)
     if request.method == 'POST':
         bureau.delete()
@@ -305,6 +503,7 @@ def supprimer_bureau(request, pk):
 #############################
 
 def export_bureau_csv(request):
+    logger.info(f"Export des bureaux au format CSV par l'utilisateur {request.user.username}")
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="bureaux.csv"'
     writer = csv.writer(response)
@@ -316,6 +515,7 @@ def export_bureau_csv(request):
 
 
 def export_bureau_excel(request):
+    logger.info(f"Export des bureaux au format Excel par l'utilisateur {request.user.username}")
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = "Bureaux"
@@ -328,41 +528,145 @@ def export_bureau_excel(request):
     response['Content-Disposition'] = 'attachment; filename="bureaux.xlsx"'
     wb.save(response)
     return response
-
-
-from reportlab.pdfgen import canvas
+############################
+from io import BytesIO
+from datetime import datetime
+from django.http import HttpResponse
 from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import cm
+from .models import Bureau
 
 def export_bureau_pdf(request):
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="bureaux.pdf"'
-    p = canvas.Canvas(response, pagesize=A4)
+    logger.info(f"Export des bureaux au format PDF par l'utilisateur {request.user.username}")
+    try:
+        # Configuration du document PDF
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="liste_bureaux_{datetime.now().strftime("%Y%m%d")}.pdf"'
 
-    y = 800
-    p.setFont("Helvetica-Bold", 14)
-    p.drawString(200, y, "Liste des Bureaux")
-    p.setFont("Helvetica", 12)
-    y -= 40
+        buffer = BytesIO()
+        doc = SimpleDocTemplate(
+            buffer, pagesize=A4,
+            rightMargin=40, leftMargin=40,
+            topMargin=60, bottomMargin=40
+        )
 
-    for b in Bureau.objects.all():
-        p.drawString(100, y, f"Bureau: {b.numero_bureau} - Étage: {b.etage} - Service: {b.service.nom_service}")
-        y -= 20
-        if y < 50:
-            p.showPage()
-            y = 800
+        elements = []
+        styles = getSampleStyleSheet()
 
-    p.showPage()
-    p.save()
-    return response
-###############################  FIN BUREAU ###########
+        # Styles pour l'en-tête
+        header_style = ParagraphStyle(
+            'header_style',
+            parent=styles['Normal'],
+            fontSize=16,
+            textColor=colors.black,
+            alignment=1,  # 1 = centre
+            spaceAfter=10,
+            leading=13
+        )
+        
+        subheader_style = ParagraphStyle(
+            'subheader_style',
+            parent=styles['Normal'],
+            fontSize=12,
+            textColor=colors.black,
+            alignment=1,
+            spaceBefore=5,
+            spaceAfter=10
+        )
 
+        # En-tête avec logos et texte
+        header_data = [
+            [Image('static/blog/img/uit.jpg', width=2*cm, height=2*cm), 
+             [Paragraph("<b>HÔPITAL UNIVERSITAIRE DE L'UIT</b>", header_style),
+              Paragraph("Centre Hospitalo-Universitaire de Référence", subheader_style)],
+             Image('static/blog/img/dr.jpg', width=2*cm, height=2*cm)]
+        ]
+        
+        header_table = Table(header_data, colWidths=[4*cm, 10*cm, 4*cm])
+        header_table.setStyle(TableStyle([
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ]))
+        elements.append(header_table)
 
+        # Informations de l'hôpital
+        elements.append(Paragraph("ANNEE 2024-2025", styles['Heading2']))
+        elements.append(Spacer(1, 12))
+
+        hospital_info = [
+            Paragraph("123 Avenue de la Santé", styles['Normal']),
+            Paragraph("Ville: Thies", styles['Normal']),
+            Paragraph("Tél: +221 33 945 67 89", styles['Normal']),
+            Paragraph("Email: contact@hopital-uit.sn", styles['Normal']),
+            Spacer(1, 24),
+            Paragraph("<b>LISTE DES BUREAUX - SERVICE LOGISTIQUE</b>", styles['Title']),
+            Paragraph(f"Généré le: {datetime.now().strftime('%d/%m/%Y %H:%M')}", styles['Normal']),
+            Spacer(1, 24)
+        ]
+        elements.extend(hospital_info)
+
+        # Tableau des bureaux
+        data = [['Numéro', 'Étage', 'Service']]
+        bureaux = Bureau.objects.select_related('service').order_by('etage', 'numero_bureau')
+        
+        for bureau in bureaux:
+            data.append([
+                bureau.numero_bureau,
+                f"Étage {bureau.etage}",
+                bureau.service.nom_service if bureau.service else "Non attribué"
+            ])
+
+        # Création du tableau avec largeurs de colonnes proportionnelles
+        table = Table(data, colWidths=[3*cm, 3*cm, 10*cm], repeatRows=1)
+        
+        # Style du tableau - adapté mais cohérent avec la charte
+        table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1E5F8C')),  # Bleu hospitalier
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, -1), 10),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor('#F0F8FF')),  # Fond bleu clair
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.lightgrey),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ]))
+
+        elements.append(table)
+        elements.append(Spacer(1, 24))
+
+        # Pied de page
+        footer_style = ParagraphStyle(
+            'footer_style',
+            fontSize=8,
+            textColor=colors.HexColor('#6c757d'),
+            alignment=1  # Centré
+        )
+        
+        elements.append(Paragraph(
+            f"Total bureaux: {bureaux.count()} • © {datetime.now().year} Hôpital Universitaire de l'UIT",
+            footer_style
+        ))
+
+        # Génération du PDF
+        doc.build(elements)
+        pdf = buffer.getvalue()
+        buffer.close()
+        response.write(pdf)
+        return response
+
+    except Exception as e:
+        return HttpResponse(f"Erreur lors de la génération du PDF: {str(e)}", status=500)
 
 #############   INFIRMIER ##############
 #Affichage des infirmiers
 from django.db.models import Q
 
 def admin_Infirmier(request):
+    logger.info(f"Consultation des infirmiers par l'utilisateur {request.user.username}")
     infirmiers = Infirmier.objects.select_related('service').all()
     recherche = request.GET.get('recherche', '')
     selected_grade = request.GET.get('grade', '')
@@ -397,6 +701,7 @@ def admin_Infirmier(request):
 
 #  Ajout d’un infirmier via InfirmierForm
 def ajouter_infirmier(request):
+    logger.info(f"Ajout d'un infirmier par l'utilisateur {request.user.username}")
     if request.method == "POST":
         form = InfirmierForm(request.POST)
         if form.is_valid():
@@ -405,6 +710,7 @@ def ajouter_infirmier(request):
 
 #  Modifier infirmier
 def modifier_infirmier(request, pk):
+    logger.info(f"Modification de l'infirmier {pk} par l'utilisateur {request.user.username}")
     infirmier = get_object_or_404(Infirmier, pk=pk)
     if request.method == "POST":
         form = InfirmierForm(request.POST, instance=infirmier)
@@ -413,8 +719,9 @@ def modifier_infirmier(request, pk):
             return redirect('admin_Infirmier')
     return redirect('admin_Infirmier')
 
-# 🗑️ Supprimer infirmier
+#  Supprimer infirmier
 def supprimer_infirmier(request, pk):
+    logger.info(f"Suppression de l'infirmier {pk} par l'utilisateur {request.user.username}")
     infirmier = get_object_or_404(Infirmier, pk=pk)
     if request.method == "POST":
         infirmier.delete()
@@ -424,6 +731,7 @@ def supprimer_infirmier(request, pk):
 
 
 def export_infirmiers_csv(request):
+    logger.info(f"Export des infirmiers au format CSV par l'utilisateur {request.user.username}")
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="infirmiers.csv"'
     writer = csv.writer(response)
@@ -436,6 +744,7 @@ def export_infirmiers_csv(request):
 
 
 def export_infirmiers_excel(request):
+    logger.info(f"Export des infirmiers au format Excel par l'utilisateur {request.user.username}")
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = "Infirmiers"
@@ -457,6 +766,7 @@ from reportlab.lib.units import inch
 from datetime import datetime
 
 def export_infirmiers_pdf(request):
+    logger.info(f"Export des infirmiers au format PDF par l'utilisateur {request.user.username}")
     # Configuration du document
     buffer = BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=A4, 
@@ -560,43 +870,53 @@ def export_infirmiers_pdf(request):
 ###############################  FIN INFIRMIER ###########
 
 
-#############   MEDECIN ##############
+#############   MEDECIN ##############from django.shortcuts import render, redirect
+from .forms import MedecinForm
+from .models import Medecin, Service, Bureau
 from django.db.models import Q
 
 def admin_medecin(request):
-    # Initialisation des paramètres
+    logger.info(f"Consultation des médecins par l'utilisateur {request.user.username}")
+    # Traitement du formulaire s’il y a une soumission POST
+    if request.method == 'POST':
+        form = MedecinForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('admin_medecin') 
+    else:
+        form = MedecinForm()
+
+    # Gestion des filtres de recherche (GET)
     recherche = request.GET.get('recherche', '')
     specialite = request.GET.get('specialite', '')
     service = request.GET.get('service', '')
-    
-    # Construction de la requête
+
     medecins = Medecin.objects.all()
-    
+
     if recherche:
         medecins = medecins.filter(
-            Q(nom__icontains=recherche) | 
+            Q(nom__icontains=recherche) |
             Q(prenom__icontains=recherche)
         )
     if specialite:
         medecins = medecins.filter(specialite__icontains=specialite)
-    
     if service:
         medecins = medecins.filter(service__id=service)
-    
-    # Préparation du contexte
+
     context = {
         'medecins': medecins,
         'recherche': recherche,
         'selected_specialite': specialite,
         'selected_service': service,
-        'form': MedecinForm(),
+        'form': form,
         'services': Service.objects.all(),
         'bureaux': Bureau.objects.all(),
-        'specialites': Medecin.objects.values_list('specialite', flat=True).distinct()
+        'specialites': Medecin.objects.values_list('specialite', flat=True).distinct(),
     }
     return render(request, 'blog/admin_Medecin.html', context)
 
 def ajouter_medecin(request):
+    logger.info(f"Ajout d'un médecin par l'utilisateur {request.user.username}")
     if request.method == 'POST':
         form = MedecinForm(request.POST)
         if form.is_valid():
@@ -606,16 +926,8 @@ def ajouter_medecin(request):
 
 
 
-
-#def modifier_medecin(request, pk):
- #   medecin = get_object_or_404(Medecin, pk=pk)
-  #  if request.method == 'POST':
-      #  form = MedecinForm(request.POST, instance=medecin)
-       # if form.is_valid():
-        #    form.save()
-    #return redirect('admin_Medecin')
-
 def modifier_medecin(request, pk):
+    logger.info(f"Modification du médecin {pk} par l'utilisateur {request.user.username}")
     medecin = get_object_or_404(Medecin, pk=pk)
 
     if request.method == 'POST':
@@ -638,6 +950,7 @@ def modifier_medecin(request, pk):
 
 
 def supprimer_medecin(request, pk):
+    logger.info(f"Suppression du médecin {pk} par l'utilisateur {request.user.username}")
     medecin = get_object_or_404(Medecin, pk=pk)
     if request.method == 'POST':
         medecin.delete()
@@ -645,66 +958,76 @@ def supprimer_medecin(request, pk):
 
 
 
-########## Exporter les médecins au format pdf, excel et csv ##########
-
+########## Exporter les médecins au format pdf, excel et csv ##########from io import BytesIO
 from io import BytesIO
 from django.http import HttpResponse
 from reportlab.lib import colors
-from reportlab.lib.pagesizes import letter
+from reportlab.lib.pagesizes import A4
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import inch
+from reportlab.lib.units import inch, cm
 from datetime import datetime
 from .models import Medecin
 
 def export_medecin_pdf(request):
-    # Configuration du document
-    buffer = BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=letter, 
-                          rightMargin=72, leftMargin=72,
-                          topMargin=72, bottomMargin=72)
-    
-    styles = getSampleStyleSheet()
-    elements = []
-    
-    # 1. En-tête professionnel avec logo centré
-    logo_path = "static/blog/img/uit.jpg"  # Chemin vers votre logo
-    try:
-        # Création d'une table pour centrer le logo
-        logo_table_data = [
-            [Image(logo_path, width=1.5*inch, height=1*inch)]
-        ]
-        logo_table = Table(logo_table_data, colWidths=[doc.width])
-        logo_table.setStyle(TableStyle([
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-        ]))
-        elements.append(logo_table)
-        elements.append(Spacer(1, 20))  # Espace après le logo
-    except:
-        # Si le logo n'est pas trouvé, on ajoute juste le titre
-        elements.append(Paragraph("<b>HÔPITAL GÉNÉRAL DE L'UIT</b>", 
-                               getSampleStyleSheet()['Title']))
-        elements.append(Spacer(1, 12))
+    logger.info(f"Export des médecins au format PDF par l'utilisateur {request.user.username}")
+    # Configuration du document PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="liste_medecins_{datetime.now().strftime("%Y%m%d")}.pdf"'
 
-    # Style personnalisé
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(
+        buffer, pagesize=A4,
+        rightMargin=72, leftMargin=72,
+        topMargin=72, bottomMargin=72
+    )
+
+    elements = []
+    styles = getSampleStyleSheet()
+
+    # Styles pour l'en-tête
     header_style = ParagraphStyle(
-        'header',
+        'header_style',
         parent=styles['Normal'],
-        fontSize=12,
-        leading=14,
-        spaceAfter=6,
-        alignment=1  # Centré
+        fontSize=16,
+        textColor=colors.black,
+        alignment=1,  # 1 = centre
+        spaceAfter=10,
+        leading=13
     )
     
+    subheader_style = ParagraphStyle(
+        'subheader_style',
+        parent=styles['Normal'],
+        fontSize=12,
+        textColor=colors.black,
+        alignment=1,
+        spaceBefore=5,
+        spaceAfter=10
+    )
+
+    # En-tête avec logos et texte
+    header_data = [
+        [Image('static/blog/img/uit.jpg', width=2*cm, height=2*cm), 
+         [Paragraph("<b>HÔPITAL UNIVERSITAIRE DE L'UIT</b>", header_style),
+          Paragraph("Centre Hospitalo-Universitaire de Référence", subheader_style)],
+         Image('static/blog/img/dr.jpg', width=2*cm, height=2*cm)]
+    ]
+    
+    header_table = Table(header_data, colWidths=[4*cm, 10*cm, 4*cm])
+    header_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+    ]))
+    elements.append(header_table)
+
     # Informations de l'hôpital
+    elements.append(Spacer(1, 20))
     hospital_info = [
-        Paragraph("<b>HÔPITAL GÉNÉRAL DE L'UIT</b>", header_style),
         Paragraph("123 Avenue de la Santé", styles['Normal']),
-        
-        Paragraph("Ville:Thies", styles['Normal']),
-        Paragraph("Tél: +33 345 67 78", styles['Normal']),
-        Paragraph("Email: uit@univ_hopital.com", styles['Normal']),
+        Paragraph("Ville: Thies", styles['Normal']),
+        Paragraph("Tél: +221 33 945 67 89", styles['Normal']),
+        Paragraph("Email: contact@hopital-uit.sn", styles['Normal']),
         Spacer(1, 12),
         Paragraph("<b>LISTE DES MÉDECINS</b>", styles['Title']),
         Paragraph(f"Généré le: {datetime.now().strftime('%d/%m/%Y %H:%M')}", styles['Normal']),
@@ -712,10 +1035,8 @@ def export_medecin_pdf(request):
     ]
     elements.extend(hospital_info)
 
-    # 2. Données des médecins
-    data = [
-        ['Nom', 'Prénom', 'Spécialité', 'Email', 'Service', 'Bureau']
-    ]
+    # Données des médecins - Même structure que votre version initiale
+    data = [['Nom', 'Prénom', 'Spécialité', 'Email', 'Service', 'Bureau']]
     
     medecins = Medecin.objects.select_related('service', 'bureau').order_by('nom', 'prenom')
     
@@ -729,45 +1050,47 @@ def export_medecin_pdf(request):
             str(medecin.bureau) if medecin.bureau else "N/A"
         ])
 
-    # 3. Style du tableau
-    table = Table(data, repeatRows=1)
+    # Création du tableau - Mêmes dimensions que votre version initiale
+    table = Table(data, repeatRows=1)  # Pas de colWidths spécifiées comme dans l'original
+    
+    # Style du tableau - Identique à votre version initiale
     table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#005b96')),
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#005b96')),  # Même bleu foncé
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Tout centré comme original
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0, 0), (-1, 0), 9),
+        ('FONTSIZE', (0, 0), (-1, 0), 9),  # Même taille de police
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-        ('GRID', (0, 0), (-1, -1), 1, colors.lightgrey),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),  # Même fond beige
+        ('GRID', (0, 0), (-1, -1), 1, colors.lightgrey),  # Même grille
         ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
     ]))
     
     elements.append(table)
     elements.append(Spacer(1, 24))
     
-    # 4. Pied de page
+    # Pied de page - Style similaire à l'original
     footer = Paragraph(
-        "<i>Document confidentiel - © Hôpital Général {}</i>".format(datetime.now().year),
-        styles['Italic']
+        f"<i>Document confidentiel - © Hôpital Universitaire de l'UIT {datetime.now().year}</i>",
+        ParagraphStyle(
+            'footer',
+            parent=styles['Italic'],
+            fontSize=8,
+            textColor=colors.HexColor('#6c757d'),
+            alignment=1  # Centré
+        )
     )
     elements.append(footer)
-    
-   
 
     # Génération du PDF
     doc.build(elements)
-    
-    buffer.seek(0)
-    response = HttpResponse(buffer, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="liste_medecins_{}.pdf"'.format(
-        datetime.now().strftime('%Y%m%d')
-    )
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
     return response
 
-
-
 def export_medecin_excel(request):
+    logger.info(f"Export des médecins au format Excel par l'utilisateur {request.user.username}")
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = "Médecins"
@@ -783,6 +1106,7 @@ def export_medecin_excel(request):
 
 
 def export_medecin_csv(request):
+    logger.info(f"Export des médecins au format CSV par l'utilisateur {request.user.username}")
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="medecins.csv"'
 
@@ -800,6 +1124,7 @@ def export_medecin_csv(request):
 from django.db.models import Q
 
 def admin_Patient(request):
+    logger.info(f"Consultation des patients par l'utilisateur {request.user.username}")
     patients = Patient.objects.select_related('service', 'medecin').all()
     services = Service.objects.all()
     medecins = Medecin.objects.all()
@@ -836,6 +1161,7 @@ def admin_Patient(request):
 
 
 def ajouter_patient(request):
+    logger.info(f"Ajout d'un patient par l'utilisateur {request.user.username}")
     if request.method == 'POST':
         form = PatientForm(request.POST)
         if form.is_valid():
@@ -845,6 +1171,7 @@ def ajouter_patient(request):
 
 
 def modifier_patient(request, pk):
+    logger.info(f"Modification du patient {pk} par l'utilisateur {request.user.username}")
     patient = get_object_or_404(Patient, pk=pk)
     if request.method == 'POST':
         form = PatientForm(request.POST, instance=patient)
@@ -855,6 +1182,7 @@ def modifier_patient(request, pk):
 
 
 def supprimer_patient(request, pk):
+    logger.info(f"Suppression du patient {pk} par l'utilisateur {request.user.username}")
     patient = get_object_or_404(Patient, pk=pk)
     if request.method == 'POST':
         patient.delete()
@@ -869,6 +1197,7 @@ from django.http import HttpResponse
 from .models import Patient
 
 def export_patients_csv(request):
+    logger.info(f"Export des patients au format CSV par l'utilisateur {request.user.username}")
     response = HttpResponse(content_type='text/csv; charset=utf-8')
     response['Content-Disposition'] = 'attachment; filename="patients.csv"'
 
@@ -893,6 +1222,7 @@ from openpyxl.styles import Font, PatternFill
 from django.http import HttpResponse
 
 def export_patients_excel(request):
+    logger.info(f"Export des patients au format Excel par l'utilisateur {request.user.username}")
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = "Patients"
@@ -924,23 +1254,24 @@ def export_patients_excel(request):
     response['Content-Disposition'] = 'attachment; filename="patients.xlsx"'
     wb.save(response)
     return response
-###################
-from reportlab.lib.pagesizes import A4
+###################from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import inch
+from reportlab.lib.units import inch, cm
 from datetime import datetime
 from django.http import HttpResponse
 from .models import Patient
 
 def export_patients_pdf(request):
+    logger.info(f"Export des patients au format PDF par l'utilisateur {request.user.username}")
     # Configuration du document PDF
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="liste_patients.pdf"'
 
+    buffer = BytesIO()
     doc = SimpleDocTemplate(
-        response, pagesize=A4,
+        buffer, pagesize=A4,
         rightMargin=40, leftMargin=40,
         topMargin=60, bottomMargin=40
     )
@@ -948,46 +1279,54 @@ def export_patients_pdf(request):
     elements = []
     styles = getSampleStyleSheet()
 
-    # Titre stylisé
-    title_style = ParagraphStyle(
-        'title_style',
-        parent=styles['Heading1'],
-        fontSize=15,
-        textColor=colors.HexColor('#1E3A8A'),  # Bleu profond
-        alignment=1,
-        spaceAfter=15
-    )
-
-    # Tentative d'ajout du logo
-    try:
-        logo = Image("static/blog/img/logo1.jpg", width=1.2*inch, height=1*inch)
-        logo.hAlign = 'CENTER'
-        elements.append(logo)
-    except Exception as e:
-        pass  # Continue sans le logo si erreur
-
-    # En-tête
-    elements.append(Paragraph("HÔPITAL GÉNÉRAL DE L'UIT", title_style))
-    elements.append(Spacer(1, 18))
-    header_style = ParagraphStyle(  # Ajout de ce style manquant
+    # Styles pour l'en-tête
+    header_style = ParagraphStyle(
         'header_style',
-        parent=styles['Heading2'],
-        textColor=colors.HexColor('#1a5276'),
-        fontSize=14,
+        parent=styles['Normal'],
+        fontSize=16,
+        textColor=colors.black,
+        alignment=1,  # 1 = centre
+        spaceAfter=10,
+        leading=13
+    )
+    
+    subheader_style = ParagraphStyle(
+        'subheader_style',
+        parent=styles['Normal'],
+        fontSize=12,
+        textColor=colors.black,
         alignment=1,
-        spaceAfter=15
+        spaceBefore=5,
+        spaceAfter=10
     )
 
+    # En-tête avec logos et texte
+    header_data = [
+        [Image('static/blog/img/uit.jpg', width=2*cm, height=2*cm), 
+         [Paragraph("<b>HÔPITAL UNIVERSITAIRE DE L'UIT</b>", header_style),
+          Paragraph("Centre Hospitalo-Universitaire de Référence", subheader_style)],
+         Image('static/blog/img/dr.jpg', width=2*cm, height=2*cm)]
+    ]
+    
+    header_table = Table(header_data, colWidths=[4*cm, 10*cm, 4*cm])
+    header_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+    ]))
+    elements.append(header_table)
+
+    # Informations de l'hôpital
+    elements.append(Paragraph("ANNEE 2024-2025", styles['Heading2']))
+    elements.append(Spacer(1, 12))
 
     hospital_info = [
         Paragraph("123 Avenue de la Santé", styles['Normal']),
-        
-        Paragraph("Ville:Thies", styles['Normal']),
-        Paragraph("Tél: +33 345 67 78", styles['Normal']),
-        Paragraph("Email: uit@univ_hopital.com", styles['Normal']),
-        Spacer(1, 12),
-        Paragraph("<b>Listes Des patients enregistrés</b>", styles['Title']),
-        Spacer(1, 24)
+        Paragraph("Ville: Thies", styles['Normal']),
+        Paragraph("Tél: +221 33 945 67 89", styles['Normal']),
+        Paragraph("Email: contact@hopital-uit.sn", styles['Normal']),
+        Spacer(1, 24),
+        Paragraph("<b>LISTE DES PATIENTS ENREGISTRÉS</b>", styles['Title']),
+        Spacer(1, 12)
     ]
     elements.extend(hospital_info)
     
@@ -1006,25 +1345,26 @@ def export_patients_pdf(request):
         ])
 
     # Création du tableau
-    table = Table(data, colWidths=[30, 80, 80, 70, 45, 170], repeatRows=1)
+    table = Table(data, colWidths=[0.8*cm, 2.5*cm, 2.5*cm, 2*cm, 1.5*cm, 5*cm], repeatRows=1)
 
     # Style du tableau
     table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#0d6efd')),  # Bleu Bootstrap
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1E5F8C')),  # Bleu hospitalier
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+        ('ALIGN', (0, 0), (3, -1), 'CENTER'),
+        ('ALIGN', (4, 0), (4, -1), 'CENTER'),  # Centrer la colonne sexe
         ('FONTSIZE', (0, 0), (-1, -1), 9),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
-        ('GRID', (0, 0), (-1, -1), 0.3, colors.grey),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.lightgrey),
         ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.whitesmoke, colors.lightgrey])
+        ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor('#F0F8FF'))  # Fond bleu clair
     ]))
 
     elements.append(table)
     elements.append(Spacer(1, 12))
 
-    # Date de génération
+    # Date de génération et pied de page
     footer_style = ParagraphStyle(
         'footer_style',
         fontSize=8,
@@ -1036,9 +1376,8 @@ def export_patients_pdf(request):
         footer_style
     ))
 
-    # Pied de page
     elements.append(Paragraph(
-        f"Total : {patients.count()} patients — © {datetime.now().year} Hôpital Général de l'UIT",
+        f"Total : {patients.count()} patients — © {datetime.now().year} Hôpital Universitaire de l'UIT",
         ParagraphStyle(
             'footer_center',
             fontSize=8,
@@ -1049,19 +1388,32 @@ def export_patients_pdf(request):
 
     # Générer le PDF
     doc.build(elements)
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
     return response
-
-
 ############  RV #########
-from django.shortcuts import render, redirect, get_object_or_404
 from .models import RendezVous
 from .forms import RendezVousForm
 
-def admin_RendezVous(request):
-    rendezVouss = RendezVous.objects.all()
-    recherche = request.GET.get('recherche', '')
-    selected_rendezVous = request.GET.get('rendezVous', '')
 
+def admin_RendezVous(request):
+    logger.info(f"Consultation des rendez-vous par l'utilisateur {request.user.username}")
+    rendezVouss = RendezVous.objects.all()
+    statut_filter = request.GET.get('statut', '')
+
+    # Filtrage uniquement par statut
+    if statut_filter:
+        rendezVouss = rendezVouss.filter(statut=statut_filter)
+
+    context = {
+        'rendezVouss': rendezVouss,
+        'statut_filter': statut_filter,
+        'patients': Patient.objects.all(),
+        'medecins':Medecin.objects.all()
+    
+    }
+    return render(request, 'blog/admin_RendezVous.html', context)
     # Filtrage par nom du patient
     if recherche:
         rendezVouss = rendezVouss.filter(patient__nom__icontains=recherche)
@@ -1085,6 +1437,7 @@ def admin_RendezVous(request):
 
 #  Ajouter un rendez-vous
 def ajouter_rendezVous(request):
+    logger.info(f"Ajout d'un rendez-vous par l'utilisateur {request.user.username}")
     if request.method == "POST":
         form = RendezVousForm(request.POST)
         if form.is_valid():
@@ -1094,6 +1447,7 @@ def ajouter_rendezVous(request):
 
 #  Modifier un rendez-vous
 def modifier_rendezVous(request, pk):
+    logger.info(f"Modification du rendez-vous {pk} par l'utilisateur {request.user.username}")
     rendezVous = get_object_or_404(RendezVous, pk=pk)
     if request.method == 'POST':
         form = RendezVousForm(request.POST, instance=rendezVous)
@@ -1104,6 +1458,7 @@ def modifier_rendezVous(request, pk):
 
 #  Supprimer un rendez-vous
 def supprimer_rendezVous(request, pk):
+    logger.info(f"Suppression du rendez-vous {pk} par l'utilisateur {request.user.username}")
     rendezVous = get_object_or_404(RendezVous, pk=pk)
     if request.method == 'POST':
         rendezVous.delete()
@@ -1117,6 +1472,7 @@ from django.http import HttpResponse
 from .models import RendezVous
 
 def export_rendezvous_csv(request):
+    logger.info(f"Export des rendez-vous au format CSV par l'utilisateur {request.user.username}")
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="rendezvous.csv"'
 
@@ -1144,6 +1500,7 @@ from openpyxl.styles import Font, Alignment, PatternFill
 ##################
 
 def export_rendezvous_excel(request):
+    logger.info(f"Export des rendez-vous au format Excel par l'utilisateur {request.user.username}")
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = "Rendez-vous"
@@ -1175,44 +1532,102 @@ def export_rendezvous_excel(request):
     wb.save(response)
     return response
 ########################
-
-from django.http import HttpResponse
-from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
-from .models import RendezVous
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib import colors
+from io import BytesIO
+from django.http import HttpResponse
+from reportlab.pdfgen import canvas
 
 def export_rendezvous_pdf(request):
+    logger.info(f"Export des rendez-vous au format PDF par l'utilisateur {request.user.username}")
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="rendezvous.pdf"'
 
-    p = canvas.Canvas(response, pagesize=A4)
-    width, height = A4
-    y = height - 3 * cm
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=A4)
+    styles = getSampleStyleSheet()
+    elements = []
 
-    p.setFont("Helvetica-Bold", 16)
-    p.drawString(5 * cm, y, "Liste des Rendez-vous")
-    y -= 2 * cm
+    # Créer un style pour le titre de l'en-tête
 
-    p.setFont("Helvetica-Bold", 12)
-    p.drawString(1 * cm, y, "Date")
-    p.drawString(5 * cm, y, "Statut")
-    p.drawString(9 * cm, y, "Patient")
-    p.drawString(14 * cm, y, "Médecin")
-    y -= 1 * cm
+    header_style = ParagraphStyle(
+        'header_style',
+        parent=styles['Normal'],
+        fontSize=16,
+        textColor=colors.black,
+        alignment=1,  # 1 = centre
+        spaceAfter=10,
+        leading=13  # 
+    )  
+    subheader_style = ParagraphStyle(
+    'subheader_style',
+    parent=styles['Normal'],
+    fontSize=12,
+    textColor=colors.black,
+    alignment=1,
+    spaceBefore=5,  # Espace avant ce paragraphe
+    spaceAfter=10
+)
+    # Créer un tableau pour l'en-tête avec les images et le texte
+    from reportlab.platypus import Table, TableStyle
+    header_data = [
+        [Image('static/blog/img/uit.jpg', width=2*cm, height=2*cm), 
+     [Paragraph("<b>HÔPITAL UNIVERSITAIRE DE L'UIT</b>", header_style),
+      Paragraph("Le Bien-être étudiant, au cœur de Nos Priorités", subheader_style)],
+         Image('static/blog/img/dr.jpg', width=2*cm, height=2*cm)]
+    ]
+    header_table = Table(header_data, colWidths=[4*cm, 10*cm, 4*cm])
+    header_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+    ]))
+    elements.append(header_table)
 
-    p.setFont("Helvetica", 11)
+    # Ajouter l'année universitaire
+    elements.append(Paragraph("ANNEE 2024-2025", styles['Heading2']))
+    elements.append(Spacer(1, 12))
+
+    # Ajouter les informations de l'hôpital
+    hospital_info = [
+        Paragraph("123 Avenue de la Santé", styles['Normal']),
+        Paragraph("Ville: Thies", styles['Normal']),
+        Paragraph("Tél: +33 345 67 78", styles['Normal']),
+        Paragraph("Email: uit@univ_hopital.com", styles['Normal']),
+        Spacer(1, 24),
+        Paragraph("<b>Liste des Rendez-vous</b>", styles['Title']),
+        Spacer(1, 12)
+    ]
+    elements.extend(hospital_info)
+
+    # Créer un tableau pour les rendez-vous
+    from reportlab.platypus import Table, TableStyle
+    rendezvous_data = [["Date", "Statut", "Patient", "Médecin"]]
+    
     for rdv in RendezVous.objects.all():
-        if y < 2 * cm:
-            p.showPage()
-            y = height - 2 * cm
-        p.drawString(1 * cm, y, str(rdv.date_rdv))
-        p.drawString(5 * cm, y, rdv.statut)
-        p.drawString(9 * cm, y, f"{rdv.patient.prenom} {rdv.patient.nom}")
-        p.drawString(14 * cm, y, f"{rdv.medecin.prenom} {rdv.medecin.nom}" if rdv.medecin else "N/A")
-        y -= 0.7 * cm
+        rendezvous_data.append([
+            str(rdv.date_rdv),
+            rdv.statut,
+            f"{rdv.patient.prenom} {rdv.patient.nom}",
+            f"{rdv.medecin.prenom} {rdv.medecin.nom}" if rdv.medecin else "N/A"
+        ])
 
-    p.showPage()
-    p.save()
+    rendezvous_table = Table(rendezvous_data, colWidths=[4*cm, 3*cm, 5*cm, 5*cm])
+    rendezvous_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('FONTSIZE', (0, 0), (-1, 0), 12),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+    ]))
+    elements.append(rendezvous_table)
+
+    doc.build(elements)
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
     return response
-
